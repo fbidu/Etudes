@@ -7,4 +7,4 @@ while i < n:
     x = ((2 + x)**0.5)
     pi = pi*(2/x)
     i += 1
-print(pi)
+    print(pi)
