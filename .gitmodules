@@ -10,3 +10,6 @@
 [submodule "Front/Angular/ShapingUp"]
 	path = Front/Angular/ShapingUp
 	url = git@github.com:fbidu/etudes-angular.git
+[submodule "Python/PythonZumbis"]
+	path = Python/PythonZumbis
+	url = git@github.com:fbidu/PythonZumbis.git
