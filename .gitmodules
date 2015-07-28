@@ -13,3 +13,6 @@
 [submodule "Python/PythonZumbis"]
 	path = Python/PythonZumbis
 	url = git@github.com:fbidu/PythonZumbis.git
+[submodule "API/build-apis-you-wont-hate"]
+	path = API/build-apis-you-wont-hate
+	url = git@github.com:fbidu/build-apis-you-wont-hate.git
