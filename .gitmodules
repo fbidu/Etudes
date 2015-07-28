@@ -1,3 +1,12 @@
 [submodule "TDD"]
 	path = TDD
 	url = git@github.com:fbidu/TDD.git
+[submodule "Python/Django/django-tutorial"]
+	path = Python/Django/django-tutorial
+	url = git@github.com:fbidu/django-tutorial.git
+[submodule "Python/Django/swamp-tutorial"]
+	path = Python/Django/swamp-tutorial
+	url = git@github.com:fbidu/swamp-tutorial.git
+[submodule "Front/Angular/ShapingUp"]
+	path = Front/Angular/ShapingUp
+	url = git@github.com:fbidu/etudes-angular.git
