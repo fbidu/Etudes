@@ -9,7 +9,7 @@ It's rather lousy as of now... I try to create one folder for each general subje
 
 ## Contributing
 
-Well this is more of a personal repository but if you'd like to contribute or discuss something, feel free to open an issue!
+Well this is more of a personal repository but if you'd like to contribute or discuss something, feel free to open an issue or e-mail me if you want to discuss something!
 
 ## Licensing
 
