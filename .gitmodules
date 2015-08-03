@@ -16,3 +16,6 @@
 [submodule "API/build-apis-you-wont-hate"]
 	path = API/build-apis-you-wont-hate
 	url = git@github.com:fbidu/build-apis-you-wont-hate.git
+[submodule "Events"]
+	path = Events
+	url = git@github.com:fbidu/Events.git
