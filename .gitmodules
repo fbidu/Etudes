@@ -19,3 +19,6 @@
 [submodule "Events"]
 	path = Events
 	url = git@github.com:fbidu/Events.git
+[submodule "data-structures"]
+	path = data-structures
+	url = git@github.com:fbidu/data-structures.git
