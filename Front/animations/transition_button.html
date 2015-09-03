@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width">
+        <title>Button content transition</title>
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
+        <style type="text/css" media="screen">
+            .btn
+            {
+                position: absolute;
+            }
+
+            .content
+            {
+                position: relative;
+                transition: top 0.3s;
+                overflow: hidden;
+            }
+
+            .top
+            {
+            	top: 0;
+            }
+
+            .bottom
+            {
+            	top: 100px;
+            }
+
+            .txt
+            {
+            	transition: transform 4s linear;
+            	display: inline-block;
+            }
+
+            .txt:hover
+            {
+            	transform: rotate(360deg);
+            }
+
+            .btn:hover .top
+            {
+            	top: -100px;
+            }
+            .btn:hover .bottom
+            {
+            	top: 0;
+            }
+        </style>
+    </head>
+    <body>
+    <div class="jumbotron">
+            <h1 class="txt">
+            	HELLO
+            </h1>
+           </div>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+    </body>
+</html>
