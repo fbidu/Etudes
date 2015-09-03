@@ -19,6 +19,7 @@
   "dependencies": {
     "foundation": "zurb/bower-foundation#~5.5.2",
     "ember": "components/ember#~2.0.0",
-    "ember-data": "components/ember-data#~1.13.9"
+    "ember-data": "canary",
+    "handlebars": "~3.0.3"
   }
 }

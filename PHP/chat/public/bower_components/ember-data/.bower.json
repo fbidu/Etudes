@@ -1,9 +1,8 @@
 {
   "name": "ember-data",
-  "version": "1.13.9",
   "main": "ember-data.js",
   "dependencies": {
-    "ember": ">= 1.8.1 < 2.0.0"
+    "ember": "^2.0.0"
   },
   "ignore": [
     "**/*_configuration.js",
@@ -12,14 +11,14 @@
     "**/*.html"
   ],
   "homepage": "https://github.com/components/ember-data",
-  "_release": "1.13.9",
+  "_release": "7fa68660d1",
   "_resolution": {
-    "type": "version",
-    "tag": "v1.13.9",
-    "commit": "d415eb5700c116d492346c92610fa41681d18545"
+    "type": "branch",
+    "branch": "canary",
+    "commit": "7fa68660d1994bfc6761a7dcfe4dbdff7bb6ed00"
   },
   "_source": "git://github.com/components/ember-data.git",
-  "_target": "~1.13.9",
-  "_originalSource": "components/ember-data",
+  "_target": "canary",
+  "_originalSource": "ember-data",
   "_direct": true
 }
