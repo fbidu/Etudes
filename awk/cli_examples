@@ -1,0 +1,4 @@
+awk BEGIN { print \"hello world\" }
+awk '{print O,,é,}' caes
+awk 'BEGIN {print heeeeeeeey brotheeeer}' 
+awk 'BEGIN {print heeeeeeeey \n brotheeeer}' 
