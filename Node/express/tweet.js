@@ -23,7 +23,11 @@ app.get('/tweets/:username', function(req, response){
 	}
 
 	var twitterUrl = url.format(options);
-	request({url: twitterUrl, oauth:oauth}).pipe(response);
+	request({url: twitterUrl, oauth:oauth}, function(err, res, body) {
+		var tweets = JSON.parse(body); // getting the tweets from the body
+		response.locals = {tweets: tweets, name: username};
+		response.render('tweets.ejs');
+	});
 });
 
 app.listen(8080);
