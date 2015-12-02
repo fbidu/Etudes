@@ -1,0 +1,6 @@
+{
+	"Twitter": {
+		"consumer_key": "your_api_key",
+		"consumer_secret": "your_api_secret"
+	}
+}
