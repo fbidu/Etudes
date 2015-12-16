@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width">
+        <title>Chat :D</title>
+        <script src="//code.jquery.com/jquery-1.11.3.min.js"></script>
+        <script src="//code.jquery.com/jquery-migrate-1.2.1.min.js"></script>
+        <script src="/socket.io/socket.io.js"></script>
+        <script>
+            var socket = io.connect("http://localhost:8080");
+        </script>
+    </head>
+    <body>
+        <form id="chat_form" action="#">
+            <input type=text id="chat_input"/>
+            <input type="submit" name="submit" id="submit" value="submit" />
+        </form>
+        <script type="text/javascript">
+            jQuery('#chat_form').submit( function(event)
+            {
+                var message = $('#chat_input').val();
+                socket.emit('messages', message);
+            });
+        </script>
+    </body>
+</html>
