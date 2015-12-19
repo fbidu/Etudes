@@ -8,6 +8,7 @@ io.on('connection', function(client) {
     client.emit('messages', {hello: 'world'});
     client.on('messages', function(data) {
         console.log(data);
+		client.broadcast.emit('messages', data);
     });
 });
 
