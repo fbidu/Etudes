@@ -8,7 +8,11 @@
         <script src="//code.jquery.com/jquery-migrate-1.2.1.min.js"></script>
         <script src="/socket.io/socket.io.js"></script>
         <script>
-            var socket = io.connect("http://localhost:8080");
+			var socket = io.connect("http://localhost:8080");
+			socket.on('connect', function(data){
+				nickname = prompt("What's your nickname?");
+				socket.emit('join', nickname);
+			});
         </script>
     </head>
     <body>
@@ -25,7 +29,7 @@
 				socket.emit('messages', message);
 			});
 			socket.on('messages', function(data) {
-				$('<p>' + data + '</p>').appendTo('#messages');
+				$('#messages').append(data.toString() + '</br>');
 			});
         </script>
     </body>
