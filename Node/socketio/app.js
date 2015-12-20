@@ -8,7 +8,9 @@ io.on('connection', function(client) {
     client.emit('messages', {hello: 'world'});
     client.on('messages', function(data) {
         console.log(data);
-		client.broadcast.emit('messages', client.nickname + ': ' + data);
+		var message = client.nickname + ': ' + data;
+		client.broadcast.emit('messages', message);
+		client.emit('messages', message);
     });
 
 	client.on('join', function(name)
