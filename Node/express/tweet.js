@@ -16,11 +16,11 @@ app.get('/tweets/:username', function(req, response){
 		host: 'api.twitter.com',
 		pathname: '/1.1/statuses/user_timeline.json',
 		query: { screen_name: username, count: 10 }
-	}
+	};
 	oauth = {
 	   	consumer_key: config.get("Twitter.consumer_key"),
 		consumer_secret: config.get("Twitter.consumer_secret")
-	}
+	};
 
 	var twitterUrl = url.format(options);
 	request({url: twitterUrl, oauth:oauth}, function(err, res, body) {
