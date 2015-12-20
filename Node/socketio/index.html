@@ -15,13 +15,18 @@
         <form id="chat_form" action="#">
             <input type=text id="chat_input"/>
             <input type="submit" name="submit" id="submit" value="submit" />
-        </form>
+		</form>
+		<div id="messages">
+		</div>
         <script type="text/javascript">
             jQuery('#chat_form').submit( function(event)
             {
                 var message = $('#chat_input').val();
-                socket.emit('messages', message);
-            });
+				socket.emit('messages', message);
+			});
+			socket.on('messages', function(data) {
+				$('<p>' + data + '</p>').appendTo('#messages');
+			});
         </script>
     </body>
 </html>
