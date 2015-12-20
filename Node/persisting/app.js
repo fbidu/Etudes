@@ -3,16 +3,19 @@ var app = express();
 var server = require('http').createServer(app);
 var io = require('socket.io')(server);
 
+var redis = require('redis');
+var redisClient = redis.createClient();
+
 var messages = [];
 
 var storeMessages = function(data)
 {
-	messages.push({ data: data});
-	if (messages.length > 10)
-	{
-		messages.shift();
-	}
-}
+	message = JSON.stringify({data: data});
+	redisClient.lpush("messages", message, function(err, response)
+		{
+			redisClient.ltrim("messages", 0, 9);
+		});
+};
 
 io.on('connection', function(client) {
     console.log('Client connected...');
@@ -28,9 +31,26 @@ io.on('connection', function(client) {
 	client.on('join', function(name)
 	{
 		client.nickname = name;
-		messages.forEach(function(message)
+		redisClient.lrange("messages", 0, -1, function(err, messages)
 		{
-			client.emit('messages', message.data);
+			messages = messages.reverse();
+
+			messages.forEach(function(message)
+			{
+				message = JSON.parse(message);
+				client.emit('messages', message.data);
+			});
+		});
+
+		client.broadcast.emit('add chatter', name);
+		redisClient.sadd('chatters', name);
+
+		redisClient.smembers('chatters', function(err, names)
+		{
+			names.forEach(function(name)
+			{
+				client.emit('add chatter', name);
+			});
 		});
 	});
 });

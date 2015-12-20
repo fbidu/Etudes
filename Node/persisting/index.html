@@ -22,6 +22,8 @@
 		</form>
 		<div id="messages">
 		</div>
+		<ol id="clients">
+		</ol>
         <script type="text/javascript">
             jQuery('#chat_form').submit( function(event)
             {
@@ -31,6 +33,12 @@
 			socket.on('messages', function(data) {
 				$('#messages').append(data.toString() + '</br>');
 			});
+
+			socket.on('add chatter', function(name)
+					  {
+						  var chatter = $('<li>' + name + '</li>').data('name', name);
+						  $('#clients').append(chatter);
+					  });
         </script>
     </body>
 </html>
