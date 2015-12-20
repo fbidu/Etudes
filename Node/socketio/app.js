@@ -10,6 +10,11 @@ io.on('connection', function(client) {
         console.log(data);
 		client.broadcast.emit('messages', data);
     });
+
+	client.on('join', function(name)
+	{
+		client.nickname = name;
+	});
 });
 
 app.get('/', function(req, res) {
