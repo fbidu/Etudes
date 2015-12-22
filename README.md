@@ -1,7 +1,7 @@
 # Études
 
-Repository where I keep links to every other repository I have for playing around and/or studying some technology, methodology, programming language and so on.
-By default every folder with actual content is a submodule to another repository. Currently all of them are hosted on Github itself.
+This is the repository where I keep the things I do while playing around and/or studying some technology, methodology, programming language and so on.
+Some folders contains a submodule to another repository. Currently all of them are hosted on Github itself.
 
 ## Folder structure
 
@@ -9,8 +9,4 @@ It's rather lousy as of now... I try to create one folder for each general subje
 
 ## Contributing
 
-Well this is more of a personal repository but if you'd like to contribute or discuss something, feel free to open an issue or e-mail me if you want to discuss something!
-
-## Licensing
-
-Well I doubt that anything here will be licensed in any other license than MIT but please check from each repository its specific license
+This is more of a playground of mine but if you'd like to contribute or discuss something, feel free to open an issue or e-mail me!
