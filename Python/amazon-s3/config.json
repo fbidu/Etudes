@@ -1,7 +1,0 @@
-{
-    "amazon": {
-        "access_key": "api_key",
-        "secret_key": "secret",
-        "session_token": "token"
-    }
-}
