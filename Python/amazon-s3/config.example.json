@@ -1,0 +1,7 @@
+{
+    "amazon": {
+        "access_key": "your_access_key",
+        "secret_key": "your_secret",
+        "session_token": "your_session_token_only_if_temporary_credential"
+    }
+}
