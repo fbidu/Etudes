@@ -15,7 +15,11 @@ def main():
     config = load(open(path.join(script_dir, 'config.json'), 'r'))
     access_key = config['amazon']['access_key']
     secret_key = config['amazon']['secret_key']
-    session_token = config['amazon']['session_token']
 
+    client = boto3.client(
+        's3',
+        aws_access_key=access_key,
+        aws_secret_access_key=secret_key,
+    )
 if __name__ == "__main__":
     main()
