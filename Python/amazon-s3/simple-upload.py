@@ -16,10 +16,16 @@ def main():
     access_key = config['amazon']['access_key']
     secret_key = config['amazon']['secret_key']
 
-    client = boto3.client(
-        's3',
-        aws_access_key=access_key,
+    s3 = boto3.session.Session(
+        aws_access_key_id=access_key,
         aws_secret_access_key=secret_key,
-    )
+    ).resource('s3')
+
+    buckets = s3.buckets.all()
+    for bucket in buckets:
+        print(bucket.name)
+
+    s3.Bucket('
+
 if __name__ == "__main__":
     main()
