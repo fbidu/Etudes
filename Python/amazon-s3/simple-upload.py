@@ -25,7 +25,6 @@ def main():
     for bucket in buckets:
         print(bucket.name)
 
-    s3.Bucket('
-
+    s3.meta.client.upload_file('octocat.png', 'devnup-backups', 'octocat.png')
 if __name__ == "__main__":
     main()
