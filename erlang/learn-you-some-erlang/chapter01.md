@@ -88,7 +88,9 @@ ab
 ab
 ```
 > The atom cat means "cat" and that's it. You can't play with it, you can't change it, you can't smash it to pieces; it's cat. Deal with it.
+
 > An atom is therefore mainly useful to express or qualify data coupled with it. Used alone, it's a bit harder to find a good use to it. This is why we won't spend more time toying with them; their best use will come when coupled with other types of data.
+
 * **Warnings**
 	1. An atom is referenced on an 'atom table' that is *not* garbage collected
 	2. They accumulate!
