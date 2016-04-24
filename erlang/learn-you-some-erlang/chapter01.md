@@ -1,4 +1,4 @@
-# Starting Out
+# [Starting Out](http://learnyousomeerlang.com/starting-out)
 
 ## Numbers
 * Expressions must end witha period followed by a whitespace (like a line break)
@@ -97,3 +97,8 @@ ab
 	3. Do *not* generate them dinamically
 	4. They are tools for the developer!
 
+## Boolean Algebra and Comparison Operators
+* Quite the same thing as in Python, `and`, `or`, `not`
+* It has a `xor` named as `xor`
+* It does **not short circuit** - both sides of an `and` gets evaluated even if the first is false
+* 
