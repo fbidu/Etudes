@@ -60,3 +60,33 @@
 2> 20 = 10 + 11.
 ** exception error: no match of right hand side value 21
 ```
+* `_` acts as a temporary variable
+```
+1> _ = 10 + 1.
+11
+2> _.
+* 1: variable '_' is unbound
+```
+* `f(X).` unbounds a variable. `f().` unbounds all of them
+* You can only use this resource at shells
+
+## Atoms
+
+* Atoms are variables whose value are the same as their names
+```
+1> atom.
+atom
+2> hai.
+hai
+3> 'Atoms can start with an uppercase letter if you surround it by single quotes'.
+'Atoms can start with an uppercase letter if you surround it by single quotes'
+4> hey@how_are_you.
+hey@how_are_you
+5> ab = 'ab'.
+ab
+6> 'ab' = ab.
+ab
+```
+> The atom cat means "cat" and that's it. You can't play with it, you can't change it, you can't smash it to pieces; it's cat. Deal with it.
+
+
