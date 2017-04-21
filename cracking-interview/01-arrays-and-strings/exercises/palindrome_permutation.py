@@ -61,3 +61,10 @@ def test_palindrome_permutation():
     assert not palindrome_permutation('baaabccc')
     assert not palindrome_permutation('felipe')
     assert not palindrome_permutation('python')
+
+def palindrome_permutation_stack():
+    """
+    This function checks if a string is a palindrome permutation using a stack
+    structure
+    """
+

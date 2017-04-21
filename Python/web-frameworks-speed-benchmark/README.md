@@ -1,1 +1,0 @@
-Based on [5 wicked-fast Python frameworks you have to try5 wicked-fast Python frameworks you have to try](http://www.infoworld.com/article/3133854/application-development/5-wicked-fast-python-frameworks-you-have-to-try.html)
