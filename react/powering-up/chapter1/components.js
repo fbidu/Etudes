@@ -1,6 +1,14 @@
 class StoryBox extends React.Component {
     render() {
-        return ( <div>Story box!</div>);
+        var now = new Date()
+        return (
+            <div>
+                <h3>Stories</h3>
+                <p className="lead">
+                    Current time: {now.toTimeString()}
+                </p>
+            </div>
+        );
     }
 }
 
