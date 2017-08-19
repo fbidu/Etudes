@@ -1,5 +1,5 @@
-// One thing I find interesting to notice is about the precedence of the ? operator.
-// Inside a string concatenation, the + operator has a higher priority, so it is executed first.
+// One thing I find interesting to notice about is the precedence of the ? operator.
+// Inside a string concatenation, the + operator has a higher priority.
 
 var isArthur = false;
 var weapon;
@@ -26,7 +26,8 @@ isArthur && isKing ? (weapon = "Excalibur", helmet = "Goosewhite") : (weapon = "
  * Nesting
  */
 
-// As usual, you can nest ternaries but you should be careful because it can easily mess with your code's legibility.
+// As usual, you can nest ternaries but you should be careful
+// because it can easily mess with your code's legibility.
 // Identation is obligatory.
 
 var isArcher = true;
@@ -34,5 +35,5 @@ isArthur && isKing ? (weapon = "Excalibur", helmet = "Goosewhite")
                    :
                    isArcher ? (weapon = "Longbow", helmet = "Mail Helm") 
                             : (weapon = "Longsword", helmet = "Iron Helm");
-// The above statement will assing longbow and mail helm to the variables.
-//2015-07-31
+// The above statement will assign longbow and mail helm to the variables.
+// 2015-07-31

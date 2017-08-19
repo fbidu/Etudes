@@ -1,8 +1,8 @@
 // If anything is false, JS will atribute its value
 
-var nome = "" && 'felipe'; // nome = ""
+var name = "" && 'felipe'; // nome = ""
 
-var idade = 0 && 10; // idade = 0
+var age = 0 && 10; // idade = 0
 
 /*
  * Double trues

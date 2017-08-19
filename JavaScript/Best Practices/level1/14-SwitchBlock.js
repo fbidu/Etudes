@@ -1,4 +1,5 @@
-// Nothing much... C-like syntax, conditions are stackable and they fall through if you don't use a break. Includes a 'default' statement as well.
+// C-like syntax, conditions are stackable and they fall through
+// if you don't use a break. Includes a 'default' statement as well.
 
 var code = 4;
 var message;

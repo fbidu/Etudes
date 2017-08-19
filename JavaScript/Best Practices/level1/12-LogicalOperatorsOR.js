@@ -1,6 +1,7 @@
 // Very neat trick. The object bellow was refactored until the third step
 // It's important to note that JS uses the 'short circuiting' method for logical evaluation
-// Meaning that an OR operator, by example, returns true at the first true value instead of passing through all the subsequent steps
+// This means that an OR operator, by example, 
+// returns true at the first true value instead of passing through all the subsequent steps
 
 var armory = {
     addSword: function(sword)
