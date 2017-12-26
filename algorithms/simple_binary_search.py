@@ -38,10 +38,10 @@ def simple_binary_search(array, start, key, offset=0):
 
 tests = 0
 errors = 0
-for t in range(50):
-    size = randint(0, 9000)
+for t in range(20000):
+    size = randint(0, 90)
     print('Test #{}. Array of size {}'.format(t, size))
-    a = [randint(-1000, 1000) for _ in range(size)]
+    a = [randint(0, 100) for _ in range(size)]
     a.sort()
     for index in range(len(a)):
         try:
