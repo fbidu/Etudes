@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Lesson 04 - Attribute & Class Binding</title>
+
+    <style>
+        .color-red {color: red; }
+        .color-blue {color: blue; }
+    </style>
+</head>
+
+<body>
+    <div id="root">
+       <!-- v-bind:title == :title -->
+       <button :title="title" id="btn">Hoover me!</button>
+
+       <h1 :class="className" @click="toggleClass">Hello, dynamic classes!</h1>
+
+       <button :disabled="!isEnabled" @click="toggleEnabled">Am I enabled?</button>
+    </div>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/vue/2.5.13/vue.js"></script>
+    <script>
+        var app = new Vue({
+            el: '#root',
+            data: {
+               title: "Title from JS!",
+               className: "color-red",
+               isEnabled: true
+            },
+            methods: {
+                toggleClass: function() {
+                    if (this.className == 'color-red') {
+                        this.className = 'color-blue';
+                        return
+                    }
+
+                    this.className = 'color-red';
+                },
+
+                toggleEnabled() {
+                    this.isEnabled = !this.isEnabled;
+                }
+            }
+        })
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Lesson 03- Event Listeners</title>
+</head>
+
+<body>
+    <div id="root">
+        <ul>
+            <li v-for="language in languages">{{ language }}</li>
+        </ul>
+
+        <input type="text" id="input" v-model="newLanguage">
+
+        <!-- @click is the same as v-on:click -->
+        <button id="button" @click="addLanguage">Add!</button>
+    </div>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/vue/2.5.13/vue.js"></script>
+    <script>
+        var app = new Vue({
+            el: '#root',
+            data: {
+                languages: ['PHP', 'Go', 'Python', 'JS'],
+                newLanguage: ''
+            },
+
+            methods: {
+                addLanguage: function () {
+                    this.languages.push(this.newLanguage);
+                    this.newLanguage = '';
+                }
+            }
+        })
+    </script>
+</body>
+
+</html>
