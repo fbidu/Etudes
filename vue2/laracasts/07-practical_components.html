@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Lesson 07 - Practical Components</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.6.2/css/bulma.css">
+    <script defer src="https://use.fontawesome.com/releases/v5.0.0/js/all.js"></script>
+    <style>
+        body {
+            padding-top: 40px;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container" id="root">
+        <message title="Hello world" body="I'm a component!"></message>
+
+        <modal v-show="showModal" @close="showModal = false">
+            <p>
+                Shall we buy a new guitar?
+                <br> Shall we drive a more powerful car?
+                <br> Shall we work straight through the night?
+                <br> Shall we get into fights, leave the lights on, drop bombs
+                <br> Do tours of the east
+                <br> Contract diseases...
+                <br>
+            </p>
+        </modal>
+
+        <a class="button" @click="showModal = true">Show modal</a>
+
+        <br>
+        <tabs>
+            <tab name="About Us" :selected=true>
+                <h1>About us :D</h1>
+            </tab>
+            <tab name="Products">
+                <h1>Our beautiful products</h1>
+            </tab>
+            <tab name="Contact">
+                <h1>hi@us.com</h1>
+            </tab>
+        </tabs>
+    </div>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/vue/2.5.13/vue.js"></script>
+    <script src="lesson07.js"></script>
+</body>
+
+</html>

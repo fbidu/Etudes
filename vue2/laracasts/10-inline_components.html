@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <title>10 - Inline component</title>
+
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.6.2/css/bulma.css">
+        <script defer src="https://use.fontawesome.com/releases/v5.0.0/js/all.js"></script>
+    </head>
+    <body>
+        <div id=root class=container>
+            <progress-view inline-template>
+                <div>
+                    <h1>You completed {{ rate }}%</h1>
+                    <button @click="rate += 10">Update rate</button>
+                </div>
+            </progress-view>
+        </div>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/vue/2.5.13/vue.js"></script>
+        <script src="lesson10.js"></script>
+    </body>
+</html>

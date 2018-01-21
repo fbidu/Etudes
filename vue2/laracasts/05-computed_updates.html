@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Lesson 04 - Attribute & Class Binding</title>
+    <title>Lesson 05 - Computed Properties</title>
 
     <style>
 
@@ -15,12 +15,50 @@
 <body>
     <div id="root">
         <h1 v-text="new Date()"></h1>
-    </div>
+        <h3>{{ inverted.split('').reverse().join('') }}</h3>
+        <h3>{{ reversedMessage }}</h3>
+
+        <h2>All tasks!</h2>
+            <ol>
+                <li v-for="task in tasks" @click="toggle(task)">{{task.description}}</li>
+            </ol>
+
+        <h2>Incomplete tasks</h2>
+            <ol>
+                <li v-for="task in incompleteTasks" @click="toggle(task)">{{task.description}}</li>
+            </ol>
+        </div>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/vue/2.5.13/vue.js"></script>
     <script>
         var app = new Vue({
             el: '#root',
             data: {
+                inverted: "INLINE inverted world. How cool",
+                tasks: [
+                    {description: "Learn Vue", done: false},
+                    {description: "Code smth in Go", done: true},
+                    {description: "Cook pancakes", done: true},
+                    {description: "Go to Black Sabbath concert", done: true},
+                    {description: "Conquer the world", done: false},
+                    {description: "Dye my beard purple", done: false}
+                ]
+            },
+
+            computed: {
+                reversedMessage: function() {
+                    var msg = "COMPUTED inverted world"
+                    return msg.split('').reverse().join('')
+                },
+
+                incompleteTasks() {
+                    return this.tasks.filter(task => !task.done);
+                }
+            },
+
+            methods: {
+                toggle(task) {
+                    task.done = !task.done
+                }
             }
         })
     </script>
