@@ -1,0 +1,10 @@
+{"compile":[
+["/home/fbidu/Etudes/nim/nimcache/hello_world.c", "gcc -c  -w  -I/home/fbidu/bin/nim-0.17.2/lib -o /home/fbidu/Etudes/nim/nimcache/hello_world.o /home/fbidu/Etudes/nim/nimcache/hello_world.c"],
+["/home/fbidu/Etudes/nim/nimcache/stdlib_system.c", "gcc -c  -w  -I/home/fbidu/bin/nim-0.17.2/lib -o /home/fbidu/Etudes/nim/nimcache/stdlib_system.o /home/fbidu/Etudes/nim/nimcache/stdlib_system.c"]
+],
+"link":[
+"/home/fbidu/Etudes/nim/nimcache/hello_world.o",
+"/home/fbidu/Etudes/nim/nimcache/stdlib_system.o"
+],
+"linkcmd": "gcc   -o /home/fbidu/Etudes/nim/hello_world  /home/fbidu/Etudes/nim/nimcache/hello_world.o /home/fbidu/Etudes/nim/nimcache/stdlib_system.o    -ldl"
+}
