@@ -6,10 +6,14 @@ import tables
 let dir = getAppDir()
 
 var results = {"updated": 0, "inserted": 0}.toTable
-
+var node: JsonNode
 for kind, path in walkDir(dir):
     if endsWith(path, "json"):
-        let node = parseFile(path)
+        try:
+            node = parseFile(path)
+        except:
+            echo "Error parsing ", path
+            continue
 
         if existsKey(node, "items"):
             for i in node["items"]:
