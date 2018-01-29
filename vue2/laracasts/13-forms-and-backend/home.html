@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>Lesson 13 - Forms and Backend</title>
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.6.2/css/bulma.css">
+    <script defer src="https://use.fontawesome.com/releases/v5.0.0/js/all.js"></script>
+    <style>
+        body {
+            padding-top: 40px;
+        }
+    </style>
+</head>
+
+<body>
+    <div id=root class=container>
+        <form action="http://127.0.0.1:5000/upper" method="post" @submit.prevent="onSubmit" @keydown="form.errors.clear($event.target.name)">
+            <div class="field">
+                <label class="label">Name</label>
+                <div class="control">
+                    <input class="input" type="text" name="name" v-model="form.name" placeholder="The name you want to make BIGGUR">
+                </div>
+            </div>
+            <input type="submit" :disabled="form.errors.any()">
+        </form>
+        <h1>{{form.up}}</h1>
+
+        <div v-if="form.errors.has('name')">
+            <article class="message is-danger">
+                <div class="message-body">
+                    {{form.errors.get('name')}}
+                </div>
+            </article>
+        </div>
+    </div>
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/vue/2.5.13/vue.js"></script>
+    <script src="lesson13.js"></script>
+</body>
+
+</html>
