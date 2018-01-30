@@ -14,7 +14,11 @@ class Errors {
     }
 
     clear(field) {
-        if (field) delete this.errors[field];
+        if (field) {
+            delete this.errors[field];
+            return;
+        }
+        
         this.errors = {};
     }
 
@@ -49,7 +53,10 @@ class Form {
     }
 
     update(data) {
-        this['up'] = data['name']
+        for (let field in data){
+            this[field + 'Result'] = data[field]
+        }
+        
     }
 
     submit(requestType, url) {
@@ -63,11 +70,14 @@ class Form {
     }
 
     onSuccess(response) {
+        console.log(response.data)
         this.update(response.data)
         this.errors.clear();
+        this.reset();
     }
 
     onFail(error) {
+        console.log(error)
         this.errors.record(error);
     }
 
@@ -83,14 +93,21 @@ new Vue({
 
     data: {
         "form": new Form({
-            "name": "",
-            "up": ""
+            "name": ""
         }),
+        "projectForm": new Form({
+            "name": "",
+            "description": ""
+        })
     },
 
     methods: {
         onSubmit() {
             this.form.submit('post', 'http://localhost:5000/upper')
+        },
+
+        submitProject() {
+            this.projectForm.submit('post', "http://localhost:5000/projects")
         }
     }
 })

@@ -11,32 +11,67 @@
     <script defer src="https://use.fontawesome.com/releases/v5.0.0/js/all.js"></script>
     <style>
         body {
-            padding-top: 40px;
+            padding: 40px;
         }
     </style>
 </head>
 
 <body>
     <div id=root class=container>
-        <form action="http://127.0.0.1:5000/upper" method="post" @submit.prevent="onSubmit" @keydown="form.errors.clear($event.target.name)">
-            <div class="field">
-                <label class="label">Name</label>
-                <div class="control">
-                    <input class="input" type="text" name="name" v-model="form.name" placeholder="The name you want to make BIGGUR">
+        <div class="columns">
+            <div class="column">
+                <h1>Make things BIGGUR</h1>
+                <form method="post" @submit.prevent="onSubmit" @keydown="form.errors.clear($event.target.name)">
+                    <div class="field">
+                        <label class="label">Name</label>
+                        <div class="control">
+                            <input class="input" type="text" name="name" v-model="form.name" placeholder="The name you want to make BIGGUR">
+                        </div>
+                    </div>
+                    <input type="submit" :disabled="form.errors.any()">
+                </form>
+                <h1>{{form.nameResult}}</h1>
+
+                <div v-if="form.errors.has('name')">
+                    <article class="message is-danger">
+                        <div class="message-body">
+                            {{form.errors.get('name')}}
+                        </div>
+                    </article>
                 </div>
             </div>
-            <input type="submit" :disabled="form.errors.any()">
-        </form>
-        <h1>{{form.up}}</h1>
+            <div class="column">
+                <h1>Create new PR0J3C75</h1>
+                <form @submit.prevent="submitProject" @keydown="projectForm.errors.clear($event.target.name)">
+                    <div class="field">
+                        <label class=label>Project Name</label>
+                        <input class="input" type="text" name="name" v-model="projectForm.name">
+                        <div v-if="projectForm.errors.has('name')">
+                            <article class="message is-danger">
+                                <div class="message-body">
+                                    {{projectForm.errors.get('name')}}
+                                </div>
+                            </article>
+                        </div>
+                    </div>
 
-        <div v-if="form.errors.has('name')">
-            <article class="message is-danger">
-                <div class="message-body">
-                    {{form.errors.get('name')}}
-                </div>
-            </article>
+                    <div class="field">
+                        <label class="label">Project Description</label>
+                        <input type="text" class="input" name="description" v-model="projectForm.description">
+                        <div v-if="projectForm.errors.has('description')">
+                            <article class="message is-danger">
+                                <div class="message-body">
+                                    {{projectForm.errors.get('description')}}
+                                </div>
+                            </article>
+                        </div>
+                    </div>
+                    <input type="submit" value="Save">
+                </form>
+            </div>
         </div>
     </div>
+
     <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/vue/2.5.13/vue.js"></script>
     <script src="lesson13.js"></script>
