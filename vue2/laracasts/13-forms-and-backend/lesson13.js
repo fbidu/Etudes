@@ -18,7 +18,7 @@ class Errors {
             delete this.errors[field];
             return;
         }
-        
+
         this.errors = {};
     }
 
@@ -53,32 +53,35 @@ class Form {
     }
 
     update(data) {
-        for (let field in data){
+        for (let field in data) {
             this[field + 'Result'] = data[field]
         }
-        
+
     }
 
     submit(requestType, url) {
-        axios[requestType](url, this.data())
-            .then(response => {
-                this.onSuccess(response)
-            })
-            .catch(error => {
-                this.onFail(error.response.data)
-            });
+        return new Promise((resolve, reject) => {
+            axios[requestType](url, this.data())
+                .then(response => {
+                    this.onSuccess(response.data);
+                    resolve(response.data);
+                })
+                .catch(error => {
+                    this.onFail(error.response.data)
+                });
+        })
     }
 
-    onSuccess(response) {
-        console.log(response.data)
-        this.update(response.data)
+    onSuccess(data) {
+        console.log(data)
+        this.update(data)
         this.errors.clear();
         this.reset();
     }
 
-    onFail(error) {
-        console.log(error)
-        this.errors.record(error);
+    onFail(errorData) {
+        console.log(errorData)
+        this.errors.record(errorData);
     }
 
     reset() {
@@ -104,6 +107,9 @@ new Vue({
     methods: {
         onSubmit() {
             this.form.submit('post', 'http://localhost:5000/upper')
+                .then(response => {
+                    console.log(response);
+                });
         },
 
         submitProject() {
