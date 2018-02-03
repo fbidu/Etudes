@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>Lesson 18 - Single Page Application Vue Routing</title>
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.6.2/css/bulma.css">
+    <link rel="stylesheet" href="public/css/app.css">
+    <script defer src="https://use.fontawesome.com/releases/v5.0.0/js/all.js"></script>
+</head>
+
+<body>
+    <div id=root>
+        <section class="hero is-info is-large">
+            <div class="hero-head">
+                <nav class="navbar">
+                    <div class="container">
+                        <div class="navbar-brand">
+                            <a class="navbar-item">
+                                <p class="title">Heroes</p>
+                            </a>
+                            <span class="navbar-burger burger" data-target="navbarMenuHeroB">
+                                <span></span>
+                                <span></span>
+                                <span></span>
+                            </span>
+                        </div>
+                        <div id="navbarMenuHeroB" class="navbar-menu">
+                            <div class="navbar-end">
+                                <router-link class="navbar-item" to="/" exact>
+                                    Home
+                                </router-link>
+                                <router-link class="navbar-item" to="/about" exact>
+                                    About
+                                </router-link>
+                                <router-link class="navbar-item" to="/stars" exact>
+                                    Star Wars People
+                                </a>
+                                <span class="navbar-item">
+                                    <a class="button is-info is-inverted">
+                                        <span class="icon">
+                                            <i class="fab fa-github"></i>
+                                        </span>
+                                        <span>Download</span>
+                                    </a>
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                </nav>
+            </div>
+
+            <div class="hero-body">
+                <router-view></router-view>
+            </div>
+
+            <div class="hero-foot">
+                <nav class="tabs is-boxed is-fullwidth">
+                    <div class="container">
+                        <ul>
+                            <li class="is-active">
+                                <a>Overview</a>
+                            </li>
+                            <li>
+                                <a>Modifiers</a>
+                            </li>
+                            <li>
+                                <a>Grid</a>
+                            </li>
+                            <li>
+                                <a>Elements</a>
+                            </li>
+                            <li>
+                                <a>Components</a>
+                            </li>
+                            <li>
+                                <a>Layout</a>
+                            </li>
+                        </ul>
+                    </div>
+                </nav>
+            </div>
+        </section>
+    </div>
+    <script src="public/js/app.js"></script>
+</body>
+
+</html>
