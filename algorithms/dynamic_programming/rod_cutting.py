@@ -12,6 +12,8 @@ from math import inf
 from random import randint
 from time import perf_counter
 
+from benchmark import benchmark
+
 
 def recursive_cutting(price_table, size):
     """
@@ -35,19 +37,8 @@ def main():
     """
     max_size = 22
     sample_pricing = [randint(1, 2000) for _ in range(40)]
-    prev_time = 0
-    ratio = 0
-    for i in range(1, max_size + 1):
-        init = perf_counter()
-        recursive_cutting(sample_pricing, i)
-        final = perf_counter()
-        curr_time = final - init
 
-        if prev_time:
-            ratio = (curr_time / prev_time) * 100
-
-        prev_time = curr_time
-        print("i={0:d} took {1:.4f}s - {2:.1f}% more than the last".format(i, curr_time, ratio))
+    benchmark(recursive_cutting, [sample_pricing], range(1, max_size + 1))
 
 
 if __name__ == "__main__":
