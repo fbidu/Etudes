@@ -13,6 +13,17 @@ class HomePageTest(TestCase):
         found = resolve("/")
         self.assertEqual(found.func, home_page)
 
+    def _remove_csrf_token(self, response):
+        """
+        _remove_csrf_token removes the contents of a CSRF token present in a 
+        rendered template.
+        
+        Those tokens change everytime the page is rendered, so they must be
+        extracted before we try to assert that the contents are equal.
+        """
+        csrf_regex = r"<input[^>]+csrfmiddlewaretoken[^>]+>"
+        return re.sub(csrf_regex, "", response.content.decode())
+
     def test_home_page_returns_correct_html(self):
         """
         Tests if the home page actually render the home page
@@ -23,12 +34,11 @@ class HomePageTest(TestCase):
 
         # That request will include an CSRF token. That token changes with each
         # request. We need to remove it in order to be able to test properly
-        csrf_regex = r"<input[^>]+csrfmiddlewaretoken[^>]+>"
-        observed_html = re.sub(csrf_regex, "", response.content.decode())
+        observed_html = self._remove_csrf_token(response)
 
         # We'll have the same problem while rendering the expected response.
-        expected_html = render(request, "home.html")
-        expected_html = re.sub(csrf_regex, "", expected_html.content.decode())
+        expected_response = render(request, "home.html")
+        expected_html = self._remove_csrf_token(expected_response)
 
         # Finally, we check everything
         self.assertEqual(observed_html, expected_html)
