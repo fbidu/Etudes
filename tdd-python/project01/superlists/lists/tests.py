@@ -49,5 +49,13 @@ class HomePageTest(TestCase):
         request.POST["item_text"] = "A new list item"
 
         response = home_page(request)
+        observed_html = self._remove_csrf_token(response)
 
-        self.assertIn("A new list item", response.content.decode())
+        self.assertIn("A new list item", observed_html)
+
+        expected_response = render(
+            request, "home.html", {"new_item_text": "A new list item"}
+        )
+        expected_html = self._remove_csrf_token(expected_response)
+
+        self.assertEqual(observed_html, expected_html)
