@@ -50,17 +50,37 @@ class HomePageTest(TestCase):
         request.POST["item_text"] = "A new list item"
 
         response = home_page(request)
+
+        self.assertEqual(Item.objects.count(), 1)
+        new_item = Item.objects.first()
+        self.assertEqual(new_item.text, "A new list item")
+
+    def test_home_page_redirects_after_POST(self):
+        request = HttpRequest()
+        request.method = "POST"
+        request.POST["item_text"] = "A new list item"
+
+        response = home_page(request)
+
+        self.assertEqual(response.status_code, 302)
+        self.assertEqual(response["location"], "/")
+
+    def test_home_page_only_saves_items_when_necessary(self):
+        request = HttpRequest()
+        home_page(request)
+        self.assertEqual(Item.objects.count(), 0)
+
+    def test_home_page_displays_all_list_items(self):
+        Item.objects.create(text="itemey 1")
+        Item.objects.create(text="itemey 2")
+
+        request = HttpRequest()
+        response = home_page(request)
+
         observed_html = self._remove_csrf_token(response)
 
-        self.assertIn("A new list item", observed_html)
-
-        expected_response = render(
-            request, "home.html", {"new_item_text": "A new list item"}
-        )
-        expected_html = self._remove_csrf_token(expected_response)
-
-        self.assertEqual(observed_html, expected_html)
-
+        self.assertIn("itemey 1", observed_html)
+        self.assertIn("itemey 2", observed_html)
 
 class ItemModelTest(TestCase):
     def test_saving_and_retrieving_items(self):
