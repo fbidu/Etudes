@@ -70,7 +70,7 @@ class NewVisitorTest(LiveServerTestCase):
         input_box = self.browser.find_element_by_id("id_new_item")
         input_box.send_keys("Buy milk")
         input_box.send_keys(Keys.ENTER)
-
+        time.sleep(2)
         # Francis gets his own unique URL
         francis_list_url = self.browser.current_url
         self.assertRegex(francis_list_url, "/lists/.+")
