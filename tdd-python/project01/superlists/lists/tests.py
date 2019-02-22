@@ -1,3 +1,6 @@
+"""
+Unit tests for the functions in the list app
+"""
 import re
 
 from django.http import HttpRequest
@@ -9,25 +12,33 @@ from lists.models import Item
 from lists.views import home_page
 
 
+def remove_csrf_token(response):
+    """
+    remove_csrf_token removes the contents of a CSRF token present in a 
+    rendered template.
+    
+    Those tokens change everytime the page is rendered, so they must be
+    extracted before we try to assert that the contents are equal.
+    """
+    csrf_regex = r"<input[^>]+csrfmiddlewaretoken[^>]+>"
+    return re.sub(csrf_regex, "", response.content.decode())
+
+
 class HomePageTest(TestCase):
+    """
+    HomePageTest provides a suite of tests for our homepage
+    """
+
     def test_root_url_resolves_to_homepage_view(self):
+        """
+        Tests if the homepage works!
+        """
         found = resolve("/")
         self.assertEqual(found.func, home_page)
 
-    def _remove_csrf_token(self, response):
-        """
-        _remove_csrf_token removes the contents of a CSRF token present in a 
-        rendered template.
-        
-        Those tokens change everytime the page is rendered, so they must be
-        extracted before we try to assert that the contents are equal.
-        """
-        csrf_regex = r"<input[^>]+csrfmiddlewaretoken[^>]+>"
-        return re.sub(csrf_regex, "", response.content.decode())
-
     def test_home_page_returns_correct_html(self):
         """
-        Tests if the home page actually render the home page
+        Tests if the home page actually renders the home page
         """
         # Makes a request to our home
         request = HttpRequest()
@@ -35,44 +46,26 @@ class HomePageTest(TestCase):
 
         # That request will include an CSRF token. That token changes with each
         # request. We need to remove it in order to be able to test properly
-        observed_html = self._remove_csrf_token(response)
+        observed_html = remove_csrf_token(response)
 
         # We'll have the same problem while rendering the expected response.
         expected_response = render(request, "home.html")
-        expected_html = self._remove_csrf_token(expected_response)
+        expected_html = remove_csrf_token(expected_response)
 
         # Finally, we check everything
         self.assertEqual(observed_html, expected_html)
 
-    def test_home_page_can_save_a_POST_request(self):
-        request = HttpRequest()
-        request.method = "POST"
-        request.POST["item_text"] = "A new list item"
-
-        home_page(request)
-
-        self.assertEqual(Item.objects.count(), 1)
-        new_item = Item.objects.first()
-        self.assertEqual(new_item.text, "A new list item")
-
-    def test_home_page_redirects_after_POST(self):
-        request = HttpRequest()
-        request.method = "POST"
-        request.POST["item_text"] = "A new list item"
-
-        response = home_page(request)
-
-        self.assertEqual(response.status_code, 302)
-        self.assertEqual(response["location"], "/lists/the-first-list")
-
-    def test_home_page_only_saves_items_when_necessary(self):
-        request = HttpRequest()
-        home_page(request)
-        self.assertEqual(Item.objects.count(), 0)
-
 
 class ItemModelTest(TestCase):
+    """
+    ItemModelTest provides tests for the Item ORM model
+    """
+
     def test_saving_and_retrieving_items(self):
+        """
+        Tests if we are able to create new items, save them
+        and then retrieve all of them
+        """
         first_item = Item()
         first_item.text = "The first (ever) list item"
         first_item.save()
@@ -90,16 +83,52 @@ class ItemModelTest(TestCase):
         self.assertEqual(second_saved_item.text, "Item the second")
 
 
+class NewListTest(TestCase):
+    """
+    NewListTest provides tests for creating a new list
+    """
+
+    def test_saving_a_post_request(self):
+        """
+        Tests if a simple POST request is actually saved
+        """
+        self.client.post("/lists/new", data={"item_text": "A new list item"})
+
+        self.assertEqual(Item.objects.count(), 1)
+        new_item = Item.objects.first()
+        self.assertEqual(new_item.text, "A new list item")
+
+    def test_redirects_after_post(self):
+        """
+        Tests if we're redirected after a POST
+        """
+        response = self.client.post("/lists/new", data={"item_text": "A new list item"})
+
+        self.assertEqual(response.status_code, 302)
+        self.assertEqual(response["location"], "/lists/the-first-list/")
+
+
 class ListViewTest(TestCase):
+    """
+    ListViewTest tests if the rendering and displaying of a created list
+    works correctly
+    """
+
     def test_uses_list_template(self):
-        response = self.client.get("/lists/the-first-list")
+        """
+        Is the list rendered with the correct template?
+        """
+        response = self.client.get("/lists/the-first-list/")
         self.assertTemplateUsed(response, "list.html")
 
     def test_displays_all_item(self):
+        """
+        Do we display all of the list items?
+        """
         Item.objects.create(text="item1")
         Item.objects.create(text="item2")
 
-        response = self.client.get("/lists/the-first-list")
+        response = self.client.get("/lists/the-first-list/")
 
         self.assertContains(response, "item1")
         self.assertContains(response, "item2")
