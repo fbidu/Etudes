@@ -1,6 +1,7 @@
 """
 Functional tests for the Lists app
 """
+import os
 import time
 
 from django.contrib.staticfiles.testing import StaticLiveServerTestCase
@@ -19,6 +20,10 @@ class NewVisitorTest(StaticLiveServerTestCase):
         """
         # Defines the browser engine we're going to use
         self.browser = webdriver.Firefox()
+        staging_server = os.environ.get("STAGING_SERVER")
+        if staging_server:
+            self.live_server_url = f"http://{staging_server}"
+
         self.browser.implicitly_wait(3)
 
     def tearDown(self):
@@ -111,8 +116,3 @@ class NewVisitorTest(StaticLiveServerTestCase):
         self.assertNotIn("Buy 00 Flour", page_text)
         self.assertNotIn("Buy canned tomatoes", page_text)
         self.assertIn("milk", page_text)
-
-        self.fail("Finish the test!")
-        # She visits that URL - her to-do list is still there
-        #
-        # Satistfied, she goes back to sleep
