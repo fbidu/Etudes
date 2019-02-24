@@ -1,4 +1,6 @@
-import unittest
+"""
+Functional tests for the Lists app
+"""
 import time
 
 from django.test import LiveServerTestCase
@@ -7,21 +9,48 @@ from selenium.webdriver.common.keys import Keys
 
 
 class NewVisitorTest(LiveServerTestCase):
+    """
+    Functional tests for a new user
+    """
+
     def setUp(self):
+        """
+        setUp starts up our environment before running the tests
+        """
+        # Defines the browser engine we're going to use
         self.browser = webdriver.Firefox()
         self.browser.implicitly_wait(3)
 
     def tearDown(self):
+        """
+        cleans up ou environment after the tests
+        """
+        # Closes the browser
         self.browser.quit()
 
     def check_for_row_in_list_table(self, row_text):
+        """
+        Helper function that checks if a text occurs inside
+        the id_list_table table
+        """
         table = self.browser.find_element_by_id("id_list_table")
         rows = table.find_elements_by_tag_name("tr")
         self.assertIn(row_text, [row.text for row in rows])
 
     def test_can_start_a_list_and_retrieve_it_later(self):
+        """
+        Tests if a client can start a list, add items and
+        open it later
+        """
         # Edith heard about a cool new online to-do app. She checks the homepage.
         self.browser.get(self.live_server_url)
+        self.browser.set_window_size(1024, 768)
+
+        # She notices the input box is nicely centered
+        input_box = self.browser.find_element_by_id("id_new_item")
+        self.assertAlmostEqual(
+            input_box.location["x"] + input_box.size["width"] / 2, 512, delta=5
+        )
 
         # She notices the page title and header mention to-do lists
         self.assertIn("To-Do", self.browser.title)
@@ -75,7 +104,7 @@ class NewVisitorTest(LiveServerTestCase):
         francis_list_url = self.browser.current_url
         self.assertRegex(francis_list_url, "/lists/.+")
         self.assertNotEqual(francis_list_url, edith_list_url)
-        
+
         # Again, there's no trace of Edith's list
         page_text = self.browser.find_element_by_tag_name("body").text
 
