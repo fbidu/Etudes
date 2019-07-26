@@ -10,7 +10,7 @@
     <random-string />
 
     <h1>Look at them users!</h1>
-    <user-list :listName="listName" :users="users" />
+    <user-list :listName="listName" :users="users" @delete:user="deleteUser" />
 
     <h1>Add moooore</h1>
     <user-form @add:user="addUser" />
@@ -55,9 +55,15 @@ export default {
         lastId = this.users.length;
       }
 
-      const newUser = {...user, id: lastId}
+      const newUser = { ...user, id: lastId };
 
       this.users = [...this.users, newUser];
+    },
+
+    deleteUser(userID) {
+      this.users = this.users.filter(
+        user => user.id !== userID
+      )
     }
   }
 };
