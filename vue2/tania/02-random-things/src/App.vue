@@ -61,9 +61,13 @@ export default {
     },
 
     deleteUser(userID) {
-      this.users = this.users.filter(
-        user => user.id !== userID
-      )
+      this.users = this.users.filter(user => user.id !== userID);
+    },
+
+    editUser(userID, updatedUser) {
+      this.users = this.users.map(user =>
+        user.id === id ? updatedUser : user
+      );
     }
   }
 };

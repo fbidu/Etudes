@@ -13,10 +13,20 @@
         </thead>
         <tbody>
           <tr v-for="user in users" :key="user.id">
-            <td>{{ user.email }}</td>
-            <td>{{ user.name }}</td>
-            <td>
-              <button>Edit</button>
+            <td v-if="editing === user.id">
+              <input type="text" v-model="user.email" />
+            </td>
+            <td v-else>{{ user.email }}</td>
+            <td v-if="user.id === editing">
+              <input type="text" v-model="user.name" />
+            </td>
+            <td v-else>{{ user.name }}</td>
+            <td v-if="user.id === editing">
+              <button @click="editUser(user)">Save</button>
+              <button class="muted-button" @click="cancelUser(user)">Cancel</button>
+            </td>
+            <td v-else>
+              <button @click="editMode(user)">Edit</button>
               <button @click="$emit('delete:user', user.id)">Delete</button>
             </td>
           </tr>
@@ -32,6 +42,28 @@ export default {
   props: {
     listName: String,
     users: Array
+  },
+  data() {
+    return {
+      editing: null,
+    }
+  },
+  methods: {
+    editMode(user) {
+      this.cachedUser = Object.assign({}, user)
+      this.editing = user.id
+    },
+
+    editUser(user) {
+      if (user.name === '' || user.email === '') return
+      this.$emit('edit:user', user.id, user)
+      this.editing = null
+    },
+
+    cancelUser(user) {
+      Object.assign(user, this.cachedUser)
+      this.editing = null
+    }
   }
 };
 </script>
