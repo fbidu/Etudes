@@ -37,38 +37,74 @@ export default {
   data: function() {
     return {
       listName: "hai",
-      users: [
-        {
-          id: 0,
-          name: "Felipe Rodrigues",
-          email: "felipe@felipevr.com"
-        }
-      ]
+      users: []
     };
   },
 
   methods: {
-    addUser(user) {
-      let lastId = 0;
-
-      if (this.users.length > 0) {
-        lastId = this.users.length;
+    async deleteUser(userID) {
+      try {
+        const response = await fetch(
+          `https://jsonplaceholder.typicode.com/users/${userID}`, {
+            method: "DELETE"
+        });
+        this.users = this.users.filter(user => user.id !== userID )
+      } catch(error){
+        console.error(error)
       }
-
-      const newUser = { ...user, id: lastId };
-
-      this.users = [...this.users, newUser];
     },
 
-    deleteUser(userID) {
-      this.users = this.users.filter(user => user.id !== userID);
+    async getUsers() {
+      try {
+        const response = await fetch(
+          "https://jsonplaceholder.typicode.com/users"
+        );
+        const data = await response.json();
+        this.users = data;
+      } catch (error) {
+        console.error(error);
+      }
     },
 
-    editUser(userID, updatedUser) {
-      this.users = this.users.map(user =>
-        user.id === id ? updatedUser : user
-      );
+    async addUser(user) {
+      try {
+        const response = await fetch(
+          "https://jsonplaceholder.typicode.com/users",
+          {
+            method: "POST",
+            body: JSON.stringify(user),
+            headers: {
+              "Content-type": "application/json; charset=UTF-8"
+            }
+          }
+        );
+        const data = await response.json();
+        this.users = [...this.users, data];
+      } catch (error) {
+        console.error(error);
+      }
+    },
+
+    async editUser(id, updatedUser) {
+      try {
+        const response = await fetch(
+          `https://jsonplaceholder.typicode.com/users/${id}`,
+          {
+            method: "PUT",
+            body: JSON.stringify(updatedUser),
+            headers: { "Content-type": "application/json; charset=UTF-8" }
+          }
+        );
+        const data = await response.json();
+        this.users = this.users.map(users => (users.id === id ? data : users));
+      } catch (error) {
+        console.error(error);
+      }
     }
+  },
+
+  mounted() {
+    this.getUsers();
   }
 };
 </script>
