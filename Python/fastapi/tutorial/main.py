@@ -2,6 +2,8 @@ from enum import Enum
 
 from fastapi import FastAPI
 from fastapi.exceptions import HTTPException
+from pydantic import BaseModel
+
 import uvicorn
 
 app = FastAPI()
@@ -22,8 +24,15 @@ some_nice_people = [
     {"name": "Fátima"},
     {"name": "Sandra"},
     {"name": "Osvaldo"},
-    {"name": "まつもとゆきひろ"}
+    {"name": "まつもとゆきひろ"},
 ]
+
+
+class ProgrammingLanguage(BaseModel):
+    name: str
+    description: str = None
+    top_ten: bool
+    year: int = None
 
 
 @app.get("/")
@@ -68,6 +77,15 @@ async def amithere(file_path):
 @app.get("/nice_people")
 async def nice_people(skip: int = 0, limit: int = 10):
     return some_nice_people[skip : skip + limit]
+
+
+@app.post("/planguages/{item_id}")
+async def create_language(item_id: int, item: ProgrammingLanguage, q: str = None):
+    result = {"item_id": item_id, **item.dict()}
+    if q:
+        result.update({"q": q})
+
+    return result
 
 
 if __name__ == "__main__":
