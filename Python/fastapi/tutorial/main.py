@@ -1,6 +1,6 @@
 from enum import Enum
 
-from fastapi import FastAPI
+from fastapi import FastAPI, Path, Query
 from fastapi.exceptions import HTTPException
 from pydantic import BaseModel
 
@@ -79,6 +79,11 @@ async def nice_people(skip: int = 0, limit: int = 10):
     return some_nice_people[skip : skip + limit]
 
 
+@app.get("/nice_people/{pid}")
+async def get_nice_ppl(pid: int = Path(..., ge=0, lt=4)):
+    return some_nice_people[pid]
+
+
 @app.post("/planguages/{item_id}")
 async def create_language(item_id: int, item: ProgrammingLanguage, q: str = None):
     result = {"item_id": item_id, **item.dict()}
@@ -86,6 +91,24 @@ async def create_language(item_id: int, item: ProgrammingLanguage, q: str = None
         result.update({"q": q})
 
     return result
+
+
+@app.get("/dna")
+async def get_dna(
+    dna: str = Query(
+        None,
+        regex="A*T*C*G*",
+        title="DNA Sequence to be searched",
+        min_length=3,
+        max_length=50,
+    )
+):
+    return {"nice_dna": dna}
+
+
+@app.get("/phone")
+async def phone(phone: str = Query(None, min_length=3, max_length=4)):
+    return phone
 
 
 if __name__ == "__main__":
