@@ -4,15 +4,40 @@ defmodule Toolshed do
   """
 
   @doc """
-  Hello world.
+  Checks if an integer is even.
+
+  ## Parameters
+    - n: The integer to be tested
 
   ## Examples
+    iex> Toolshed.is_even?(2)
+    true
 
-      iex> Toolshed.hello()
-      :world
-
+    iex> Toolshed.is_even?(3)
+    false
   """
-  def hello do
-    :world
+  @spec is_even?(integer) :: boolean
+  def is_even?(n) do
+    rem(n, 2) == 0
   end
+
+  @doc """
+  Sorts a string's characters
+
+  ## Parameters
+    - str: The string to be sorted
+
+  ## Examples
+    iex> Toolshed.sort_str("bcabca")
+    ["a", "a", "b", "b", "c", "c"]
+  """
+  @spec sort_str(String.t()) :: List.t()
+  def sort_str(str) do
+    str
+    |> String.downcase
+    |> String.graphemes
+    |> Enum.sort
+  end
+
+
 end
