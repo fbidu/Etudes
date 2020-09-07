@@ -2,64 +2,22 @@
 .vscode/
 db.sqlite3
 
-# Created by https://www.gitignore.io/api/elixir,python,go,php,visualstudiocode
-# Edit at https://www.gitignore.io/?templates=elixir,python,go,php,visualstudiocode
-
-### Elixir ###
-/_build
-/cover
-/deps
-/doc
-/.fetch
-erl_crash.dump
-*.ez
-*.beam
-/config/*.secret.exs
-.elixir_ls/
-
-### Elixir Patch ###
-
-### Go ###
-# Binaries for programs and plugins
 *.exe
 *.exe~
 *.dll
 *.so
 *.dylib
 
-# Test binary, built with `go test -c`
-*.test
-
-# Output of the go coverage tool, specifically when used with LiteIDE
-*.out
-
-# Dependency directories (remove the comment below to include it)
-# vendor/
-
-### Go Patch ###
-/vendor/
-/Godeps/
-
-#!! ERROR: php is undefined. Use list command to see defined gitignore types !!#
-
-### Python ###
-# Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]
 *$py.class
 
-# C extensions
-
-# Distribution / packaging
-.Python
 build/
 develop-eggs/
 dist/
 downloads/
 eggs/
 .eggs/
-lib/
-lib64/
 parts/
 sdist/
 var/
