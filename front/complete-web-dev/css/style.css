@@ -1,0 +1,23 @@
+
+h2 {
+    color: red;
+    text-align: center;
+    font-family: 'Raleway', sans-serif;
+    font-size: 300%;
+}
+
+p {
+    line-height: 110%;
+    font-weight: 700;
+    font-size: 120%;
+    font-family: 'Courier New', Courier, monospace;
+}
+
+img {
+    float: right;
+}
+
+footer {
+    text-align: center;
+    clear: both;
+}

@@ -1,0 +1,13 @@
+.boxmodel {
+    border: 5px solid red;
+    display: inline-block;
+    padding: 5vh 5vw;
+    margin-inline: 2vmin 2vmax;
+    width: 3vw;
+    height: 3vh;
+    text-align: center;
+}
+
+h2 {
+    font-size: 5vmax;
+}

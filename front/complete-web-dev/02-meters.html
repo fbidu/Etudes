@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Brincando com Meters</title>
+</head>
+<body>
+    <!-- por que o exemplo do forno alto e muito alto não renderiza em vermelho? -->
+
+    <p>Um forno alto original:</p>
+    <meter min="100" max="250" low="150" optimum="180" high="200" value="220"></meter>
+
+    <p>Um forno alto sem low:</p>
+    <meter min="100" max="250" optimum="180" high="200" value="220"></meter>
+
+    <p>Um forno alto sem optimum:</p>
+    <meter min="100" max="250" low="150" high="200" value="220"></meter> 
+
+    <p>Um forno alto sem min e sem optimum:</p>
+    <meter max="250" low="150" high="200" value="220"></meter>
+
+    <p>Um forno alto sem min:</p>
+    <meter max="250" low="150" optimum="180" high="200" value="220"></meter>
+
+    <p>Um forno alto só com high:</p>
+    <meter high="200" value="220"></meter>
+
+    <p>Um forno alto só com high e max:</p>
+    <meter high="200" max="250" value="220"></meter>
+
+    <p>Um forno alto só com high, low, max:</p>
+    <meter low="150" high="200" max="250" value="220"></meter>
+
+</body>
+</html>
