@@ -3,14 +3,10 @@ import pytest
 pytestmark = pytest.mark.django_db
 
 from ..models import Cheese
-
+from .factories import CheeseFactory
 
 def test__str__():
-    cheese = Cheese.objects.create(
-        name="Branco",
-        description="Brazilian white fresh soft cheese",
-        firmness=Cheese.Firmness.SOFT,
-    )
+    cheese = CheeseFactory()
 
-    assert cheese.__str__() == "Branco"
-    assert str(cheese) == "Branco"
+    assert cheese.__str__() == cheese.name
+    assert str(cheese) == cheese.name
