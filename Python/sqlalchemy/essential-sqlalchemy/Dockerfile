@@ -1,4 +1,0 @@
-FROM postgres:13-alpine
-
-ENV POSTGRES_USER sqla
-ENV POSTGRES_PASSWORD sqla

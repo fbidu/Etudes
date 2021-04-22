@@ -16,15 +16,14 @@ ipython and some other dependencies
 
 == Docker
 
-The dockerfile contains a small Postgres instance with a default user and password
+The docker compose contains a small Postgres instance with a default user and password
 of `+sqla+`.
 
 You can run it with
 
 [source,shell]
 ----
-docker build . -t sqla
-docker run --rm -p 5433:5432 sqla
+docker-compose up
 ----
 
 Connect to it with
