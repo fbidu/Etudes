@@ -1,0 +1,43 @@
+= Core - Schema and Types
+
+* There are 4 categories of types we can use
+* 1. Generics
+* 2. SQL Standard
+* 3. Vendor Specific
+* 4. User Defined
+
+== Generic Types
+
+* SQL Alchemy abstracts away a lot of types
+
+* https://docs.sqlalchemy.org/en/14/core/type_basics.html#generic-types[List of Generic Types]
+
+* Those types will be _translated_ to the SQL type that's best available for
+  a specific backend
+
+* For example, some DBs don't have a `+boolean+` type but a `+small int+`, so
+  SQLAlchemy will use `small int` while giving back a `boolean` to the Python
+  code
+
+== SQL Standard & Multiple Vendors
+
+* https://docs.sqlalchemy.org/en/14/core/type_basics.html#sql-standard-and-multiple-vendor-types[List]
+
+* Those types will be used AS IS. That is, if you define that a column has a type
+  that is on this list, the `CREATE TABLE` statement that will be issued and
+  everything else will have the *exact same type* as written in the code
+
+TIP: The name of those types are ALL CAPS, to draw a difference from the Generics
+
+IMPORTANT: Those types allow you to use the full power of some specific types
+- think Postgres's JSON type - but they make no guarantees of being compatible
+between different backends
+
+== User Define Types
+
+* https://docs.sqlalchemy.org/en/14/core/custom_types.html[You can build types!]
+
+* Got a legacy DB that does some weird encoding on a text field? Well, just
+  write a custom type that encodes-decodes to/from that field and you're good
+  to go
+

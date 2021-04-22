@@ -1,7 +1,13 @@
 = Essential SQLAlchemy Notes
 
 This folder contains my notes and experiments while reading Essential SQLAlchemy,
-by Jason Myers
+by Jason Myers.
+
+Please keep in mind that those notes are personal and publicized just in case
+they're useful to someone, but I write them to myself. For example, I write
+about things I find interesting or new, mostly ignore things I'm familiar with
+and I don't go out of the way to explain some concepts that may be difficult
+but I'm used with.
 
 == Install
 
