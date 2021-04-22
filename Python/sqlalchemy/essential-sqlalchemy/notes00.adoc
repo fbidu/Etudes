@@ -1,0 +1,24 @@
+= Notes for Introduction to SQLAlchemy
+
+* SQLAlchemy abstracts away the code from the DB and SQL peculiarities
+
+* There are two modes of use
+
+** SQL Expression Language "The Core"
+** ORM
+
+* Those modes may be used together or separately
+
+* *SQLAlchemy Core* provides a tiny abstraction over SQL statements and expressions
+** It is also the foundation for the ORM
+** More schema-centric
+** Best for data warehousing, reporting and other scenarios where tight control
+   of queries and dealing with unmodeled data is useful
+
+* *SQLAlchemy ORM* is a full-fledged ORM
+** It follows an active-record style
+** Has a more business-driven view, a domain-drive design of sorts
+** Best when you want to encapsulate the schema in a way that feels like 'regular'
+   Python code
+
+* Remember: you can use both at the same time!

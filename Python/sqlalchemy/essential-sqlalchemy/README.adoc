@@ -1,0 +1,31 @@
+= Essential SQLAlchemy Notes
+
+This folder contains my notes and experiments while reading Essential SQLAlchemy,
+by Jason Myers
+
+== Install
+
+Using poetry, a `+poetry install+` will install SQLAlchemy, Psycopg2 driver,
+ipython and some other dependencies
+
+== Docker
+
+The dockerfile contains a small Postgres instance with a default user and password
+of `+sqla+`.
+
+You can run it with
+
+[source,shell]
+----
+docker build . -t sqla
+docker run --rm -p 5433:5432 sqla
+----
+
+Connect to it with
+
+[source,python]
+----
+from sqlalchemy import create_engine
+
+engine = create_engine("postgresql+psycopg2://sqla:sqla@localhost:5433/sqla")
+----
