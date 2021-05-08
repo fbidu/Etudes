@@ -1,0 +1,49 @@
+= Pattern Matching
+
+* Similar à Erlang/Elixir
+
+[source,haskell]
+----
+lucky :: (Integral a) => a -> String  
+lucky 7 = "LUCKY NUMBER SEVEN!"  
+lucky x = "Sorry, you're out of luck, pal!"   
+----
+
+* `_` pode ser usado como coringa. É legal ter um catch-all para pegar casos de borda
+* O matching em si faz binding de variáveis
+
+[source,haskell]
+----
+addVectors :: (Num a) => (a, a) -> (a, a) -> (a, a)  
+addVectors (x1, y1) (x2, y2) = (x1 + x2, y1 + y2)  
+----
+
+WARNING: Match com múltiplos elementos *exige* o uso de parênteses
+
+* Podemos usar pattern matching com list comp
+
+[source,haskell]
+----
+ghci> let xs = [(1,3), (4,3), (2,4), (5,3), (5,6), (3,1)]  
+ghci> [a+b | (a,b) <- xs]  
+[4,7,6,8,11,4]   
+----
+
+TIP: Numa list comp, patterns sem match são simplesmente ignorados
+
+[source,haskell]
+----
+let xs = [(1,3),(4,3),(2,4),(5,3),(5,6),(3,1),(1,2)]
+["esse número aqui acompanha um 1: " ++ show b | (1, b) <- xs]
+----
+
+== Pattern Matching com listas
+
+* É possível usar listas como patterns
+
+[source,haskell]
+----
+isEmpty :: [a] -> Bool
+isEmpty [] = True
+isEmpty [_] = False
+----
