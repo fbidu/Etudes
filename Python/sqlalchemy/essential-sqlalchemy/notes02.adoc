@@ -1,0 +1,103 @@
+= Working with Data via SQLAlchemy Core
+
+:toc: auto
+
+== Inserting
+
+* Two `inserts` -- one through a table and another one as an independent function
+
+[source,python]
+----
+ins = cookies.insert().values(
+    cookie_name="chocolate chip",
+    cookie_recipe_url="http://some.aweso.me/cookie/recipe.html",
+    cookie_sku="CC01",
+    quantity="12",
+    unit_cost="0.50",
+)
+
+ins = insert(cookies).values(
+    cookie_name="chocolate chip",
+    cookie_recipe_url="http://some.aweso.me/cookie/recipe.html",
+    cookie_sku="CC01",
+    quantity="12",
+    unit_cost="0.50",
+)
+----
+
+* Both works the same
+
+TIP: Same as the author, I personally prefer the second option. Looks more like
+     "regular" SQL we all know and - some - love
+
+* When one of those statements is executed, they are parsed and converted into
+  valid SQL by the engine
+
+* You can even pass the args to the `execute` command itself:
+
+[source,python]
+----
+ins = cookies.insert()
+result = connection.execute(
+    ins,
+    cookie_name='dark chocolate chip',
+    cookie_recipe_url='http://some.aweso.me/cookie/recipe_dark.html',
+    cookie_sku='CC02',
+    quantity='1',
+    unit_cost='0.75'
+)
+----
+
+== Selecting
+
+* Again, two options -- as a table attribute and as a 'free-standing' function.
+
+* I prefer the free function, will put only that one here
+
+[source,python]
+----
+from sqlalchemy import select
+
+s = select([cookies])
+rp = connection.execute(s) # This is a 'ResultProxy'
+results = rp.fetchall()
+----
+
+=== `ResultProxy`
+
+* It's a wrapper around DBAPI with some goodies such as ease data access
+
+* For example, it allows you to access rows in a result in different ways:
+
+[source,python]
+----
+row = results[0]
+
+row[1] # By index
+row.cookie_name # Column name, as attribute
+row[cookies.c.cookie_name] # Column object, from the table
+----
+
+* All of those 3 methods will have the same effect - accessing row's first column
+  that is `cookie_name`
+
+* It is also an iterator
+
+[source,python]
+----
+for record in result:
+    do_stuff_with(record)
+
+----
+
+* As expected, `fetchall` is memory intensive
+* `first()` returns the first row and _closes the connection_
+* `fetchone()` fetches the first and _leaves the connection open for future fetches_
+* `scalar()` returns a single value if the result is a single record with one column
+
+WARNING: `scalar()` will raise an exception if the result has more
+         records or more columns
+
+* `keys()` returns the columns in the result
+
+<stoped @ Controlling the Columns in the Query>

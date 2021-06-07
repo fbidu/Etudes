@@ -12,7 +12,9 @@ but I'm used with.
 == Install
 
 Using poetry, a `+poetry install+` will install SQLAlchemy, Psycopg2 driver,
-ipython and some other dependencies
+ipython and some other dependencies. If you run into troubles with psycopg2,
+`sudo aptitude install python3-dev libpq-dev` might help or look over
+the official https://www.psycopg.org/docs/install.html#install-from-source[FAQ]
 
 == Docker
 

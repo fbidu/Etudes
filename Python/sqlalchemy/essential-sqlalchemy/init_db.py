@@ -13,7 +13,7 @@ from sqlalchemy import (
 from sqlalchemy import create_engine
 
 engine = create_engine("postgresql+psycopg2://sqla:sqla@localhost:5433/sqla")
-engine.connect()
+connection = engine.connect()
 metadata = MetaData()
 
 
