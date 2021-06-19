@@ -22,3 +22,9 @@ def test_cheese_has_creator():
     cheese = CheeseFactory()
 
     assert cheese.creator
+
+
+def test_get_absolute_url():
+    cheese = CheeseFactory()
+    url = cheese.get_absolute_url()
+    assert url == f"/cheeses/{cheese.slug}/"
