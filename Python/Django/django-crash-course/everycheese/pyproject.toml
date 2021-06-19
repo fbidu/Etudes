@@ -6,7 +6,6 @@ authors = ["Felipe Rodrigues <felipe@felipevr.com>"]
 
 [tool.poetry.dependencies]
 python = "^3.9"
-django = "^3.1.7"
 
 [tool.poetry.dev-dependencies]
 

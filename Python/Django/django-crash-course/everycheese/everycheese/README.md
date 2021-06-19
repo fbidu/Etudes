@@ -3,6 +3,17 @@ EveryCheese
 
 The Ultimate Cheese Index!
 
+Start the database with
+
+```
+docker run -e POSTGRES_USER=postgres \
+    -e POSTGRES_PASSWORD=cheese \
+    -v $(pwd)/data:/var/lib/postgresql/data \
+    --name=cheese-db \
+    -p 5432:5432 \
+    postgres:alpine
+```
+
 ### Quick setup
 
 > The next steps assume that conda is already installed
