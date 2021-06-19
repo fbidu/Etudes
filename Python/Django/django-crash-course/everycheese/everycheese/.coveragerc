@@ -1,6 +1,6 @@
 [run]
 include = everycheese/*
-omit = *migrations*, *tests*
+omit = *migrations*, *tests*, ./data/*
 disable_warnings = already-imported
 plugins =
     django_coverage_plugin
