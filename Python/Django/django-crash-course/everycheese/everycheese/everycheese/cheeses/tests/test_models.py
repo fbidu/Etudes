@@ -16,3 +16,9 @@ def test_cheese_has_country():
     cheese = CheeseFactory()
 
     assert cheese.country_of_origin
+
+
+def test_cheese_has_creator():
+    cheese = CheeseFactory()
+
+    assert cheese.creator
