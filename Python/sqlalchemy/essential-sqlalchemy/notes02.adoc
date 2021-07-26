@@ -25,7 +25,7 @@ ins = insert(cookies).values(
 )
 ----
 
-* Both works the same
+* Both work the same
 
 TIP: Same as the author, I personally prefer the second option. Looks more like
      "regular" SQL we all know and - some - love
@@ -95,9 +95,95 @@ for record in result:
 * `fetchone()` fetches the first and _leaves the connection open for future fetches_
 * `scalar()` returns a single value if the result is a single record with one column
 
+WARNING: `fetchall()` is expensive, will load everything into memory;
+         `fetchone()` is dangerous, will let the connections open;
+
 WARNING: `scalar()` will raise an exception if the result has more
          records or more columns
 
 * `keys()` returns the columns in the result
 
-<stoped @ Controlling the Columns in the Query>
+=== Controlling the Columns in the Query
+
+* You can pass a list of columns to be selected to the `select()` function
+
+[source,python]
+----
+s = select([cookies.c.cookie_name, cookies.c.quantity])
+----
+
+=== Ordering
+
+* The result of a `select()` function call accepts a `order_by()` method
+
+[source,python]
+----
+s = select([cookies.c.cookie_name, cookies.c.quantity])
+s.order_by(cookies.c.quantity)
+----
+
+* This is the same as
+
+[source,python]
+----
+s = select(...).order_by(...)
+----
+
+* But having everything on a single line may make for a cumbersome code
+
+* The author calls this chaining of statements a "generative fashion"
+* It allows for query building by taking tiny steps
+* This is quite useful because it allows for more complex builds such
+  as having a statement being added to a query only if some condition
+  is met in the "Python side"
+
+* You can sort in descending order with `desc()`:
+
+[source,python]
+----
+from sqlalchemy import desc
+s = select(...)
+s = s.order_by(desc(cookies.c.quantity))
+----
+
+* It is also possible to achieve the same with `cookies.c.quantity.desc()`, but it is a bit too verbose to me
+
+=== Limiting
+
+* As expected, is an additional function that can be applied to `select()`
+
+[source,python]
+----
+from sqlalchemy import desc
+s = select(...)
+s = s.order_by(...)
+s = s.limit(2)
+----
+
+=== Built-in
+
+* SQL builtins such as `SUM()` and `COUNT()` may be found on `sqlalchemy.sql.func`
+* They're applied around columns
+
+[source,python]
+----
+from sqlalchemy.sql import func
+
+s = select([func.sum(cookies.c.quantity)])
+rp = connection.execute(s)
+print(rp.scalar())
+----
+
+=== Filtering
+=== ClauseElements
+=== Operators
+=== Boolean Operators
+=== Conjuctions
+
+== Updating Data
+== Deleting Data
+== Joins
+== Aliases
+== Grouping
+== Chaining
+== Raw Queries
