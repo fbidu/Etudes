@@ -1,0 +1,15 @@
+# Introdução
+
+> Every introduction to every compiler book seems to have this section. I don’t know what it is about programming languages that causes such existential doubt. I don’t think ornithology books worry about justifying their existence. They assume the reader loves birds and start teaching. 
+
+🤣
+
+* O livro não usa compiler-compilers como `yacc`, tudo vai ser feito a mão
+* Vamos implementar a linguagem `lox`
+
+> Also, the code doesn’t have many comments. That’s because each handful of lines is surrounded by several paragraphs of honest-to-God prose explaining it. When you write a book to accompany your program, you are welcome to omit comments too
+
+* Além da implementação de um interpretador, também tem uma discussão sobre o design
+  da linguagem
+
+> Implementation is fun because it is so precisely defined (...) you find yourself designing a new language. Once you start playing that game, then the softer, human side of the equation becomes paramount. Things like which features are easy to learn, how to balance innovation and familiarity, what syntax is more readable and to whom.
