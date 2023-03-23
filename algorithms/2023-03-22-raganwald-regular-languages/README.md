@@ -1,0 +1,1 @@
+Code I wrote while reading http://raganwald.com/2019/02/14/i-love-programming-and-programmers.html
