@@ -1,0 +1,2 @@
+bench fib:
+    sudo -E uv run python -m profiling.sampling run benchmarks/fibonacci.py
