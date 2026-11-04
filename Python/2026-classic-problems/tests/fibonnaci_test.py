@@ -1,8 +1,8 @@
 import pytest
 
-from classic.fibonacci import basic_fib
+from classic.fibonacci import basic_fib, memoized_fib
 
-strategies = [basic_fib]
+strategies = [basic_fib, memoized_fib]
 
 
 @pytest.mark.parametrize("strategy", strategies)
