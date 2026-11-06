@@ -127,10 +127,16 @@ def fit_growth(
     """Fit the CLASSIC candidates plus `extra` to all the points and rank
     them by AICc, best first.
 
+    AICc is the Akaike information criterion, corrected for small samples.
+    It scores a fit by its leftover error plus a penalty for each fitted
+    parameter, and lower is better. So a candidate with more terms only
+    wins when it fits clearly better, and two fits less than about 2 apart
+    cannot be told apart by the data. The correction matters because a
+    sweep has only a handful of points, where plain AIC lets candidates
+    with more terms win too easily.
+
     The constant term absorbs call overhead, so small sizes need not be
-    dropped. AICc charges each fitted parameter, so a candidate with more
-    terms only wins when it fits clearly better. Returns None with fewer
-    than MIN_POINTS points.
+    dropped. Returns None with fewer than MIN_POINTS points.
     """
     if len(sizes) < MIN_POINTS:
         return None
