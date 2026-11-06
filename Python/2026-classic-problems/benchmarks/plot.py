@@ -24,6 +24,7 @@ SURFACE = "#fcfcfb"
 INK = "#0b0b0b"
 INK_SECONDARY = "#52514e"
 GRID = "#e1e0d9"
+GRID_MINOR = "#efeee9"
 AXIS = "#c3c2b7"
 FONT = 'system-ui, -apple-system, "Segoe UI", sans-serif'
 # Least distance between end labels, as a share of the y range: about a
@@ -139,6 +140,10 @@ def build_figure(
             "title": {"text": "time per call"},
             "tickformat": "~s",
             "ticksuffix": "s",
+            # Plotly drops the suffix on ticks between powers of ten, so
+            # only powers of ten are labelled; 2 and 5 keep a fainter grid
+            "dtick": 1,
+            "minor": {"dtick": "D2", "showgrid": True, "gridcolor": GRID_MINOR},
         },
         hovermode="closest",
         margin={"r": 200},
