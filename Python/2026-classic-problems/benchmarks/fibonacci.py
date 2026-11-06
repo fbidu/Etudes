@@ -1,38 +1,12 @@
-import argparse
+from benchmarks.harness import Problem, Strategy
+from classic.fibonacci import STRATEGIES
 
-from classic.fibonacci import basic_fib, memoized_fib
-
-strategies = [basic_fib, memoized_fib]
-
-
-def benchmark_fib_calls():
-    for strategy in strategies:
-        strategy(40)
-
-
-def benchmark_fib_call(strategy, iterations=40):
-    strategy(iterations)
-
-
-if __name__ == "__main__":
-    parser = argparse.ArgumentParser(description="Benchmark Fibonacci implementations")
-    parser.add_argument(
-        "--strategy",
-        choices=["basic", "memoized"],
-        help="Fibonacci strategy to benchmark",
-    )
-    parser.add_argument(
-        "--iterations",
-        type=int,
-        default=40,
-        help="Number of iterations to run the benchmark",
-    )
-    args = parser.parse_args()
-    strategy = args.strategy if args.strategy else None
-    iterations = args.iterations
-    if strategy == "basic":
-        benchmark_fib_call(basic_fib, iterations)
-    elif strategy == "memoized":
-        benchmark_fib_call(memoized_fib, iterations)
-    else:
-        benchmark_fib_calls()
+# A cold MemoizedFib recurses about n/2 deep, so sizes stay below twice
+# the default recursion limit of 1000.
+FIBONACCI: Problem[int, int] = Problem(
+    name="fibonacci",
+    strategies=tuple(Strategy(cls.__name__, cls) for cls in STRATEGIES),
+    make_input=lambda n: n,
+    sizes=(5, 10, 15, 20, 25, 30, 35, 40, 100, 200, 400, 800, 1600),
+    check_sizes=tuple(range(25)),
+)
