@@ -44,4 +44,21 @@ class TabulatedFib(Fibonacci):
         return table[n]
 
 
-STRATEGIES: tuple[type[Fibonacci], ...] = (BasicFib, MemoizedFib, TabulatedFib)
+class DictTabulatedFib(Fibonacci):
+    """TabulatedFib with a dict as its table, keyed by position."""
+
+    def __call__(self, n: int) -> int:
+        table: dict[int, int] = {}
+        a, b = 0, 1
+        for i in range(n + 1):
+            table[i] = a
+            a, b = b, a + b
+        return table[n]
+
+
+STRATEGIES: tuple[type[Fibonacci], ...] = (
+    BasicFib,
+    MemoizedFib,
+    TabulatedFib,
+    DictTabulatedFib,
+)
