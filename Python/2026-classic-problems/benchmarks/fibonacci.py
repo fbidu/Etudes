@@ -1,3 +1,4 @@
+from benchmarks.growth import Candidate, Term
 from benchmarks.harness import Problem, Strategy
 from classic.fibonacci import STRATEGIES
 
@@ -8,4 +9,7 @@ FIBONACCI: Problem[int, int] = Problem(
     strategies=tuple(Strategy(cls.__name__, cls) for cls in STRATEGIES),
     make_input=lambda n: n,
     sizes=(5, 10, 15, 20, 25, 30, 35, 40, 100, 200, 400, 800, 1600),
+    # fib(n) has about 0.69·n bits, so each big-int addition costs more as n
+    # grows: n additions of O(n) cost add an n² part to the linear work.
+    extra_candidates=(Candidate("n + n²", (Term.N, Term.N_SQUARED)),),
 )

@@ -5,6 +5,8 @@ import timeit
 from collections.abc import Callable
 from dataclasses import dataclass
 
+from benchmarks.growth import Candidate
+
 DEFAULT_REPEAT = 5
 
 
@@ -20,6 +22,8 @@ class Problem[Input, Output]:
     strategies: tuple[Strategy[Input, Output], ...]
     make_input: Callable[[int], Input]
     sizes: tuple[int, ...]  # swept in order, smallest first
+    # ranked alongside growth.CLASSIC, for costs specific to this problem
+    extra_candidates: tuple[Candidate, ...] = ()
 
 
 @dataclass(frozen=True)

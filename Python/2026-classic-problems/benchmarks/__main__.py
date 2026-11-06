@@ -64,7 +64,11 @@ def main(argv: Sequence[str] | None = None) -> None:
             args.budget,
             functools.partial(measure, repeat=args.repeat),
         )
-        results.append(StrategyResult.from_sweep(strategy.name, measurements))
+        results.append(
+            StrategyResult.from_sweep(
+                strategy.name, measurements, problem.extra_candidates
+            )
+        )
     print(render_table(results))
 
     if args.json:

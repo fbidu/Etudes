@@ -3,7 +3,7 @@ import sys
 
 import pytest
 
-from benchmarks.growth import Growth, Model
+from benchmarks.growth import Candidate, Fit, Growth, Term
 from benchmarks.harness import Measurement
 from benchmarks.report import (
     Metadata,
@@ -13,6 +13,11 @@ from benchmarks.report import (
     render_table,
     write_json,
 )
+
+
+def _exponential_growth() -> Growth:
+    fit = Fit(Candidate("b^n", (Term.EXPONENTIAL,)), (0.0, 1e-7), 1.618, -50.0)
+    return Growth((fit,))
 
 
 def _result(name: str, seconds_by_size: dict[int, float]) -> StrategyResult:
@@ -41,8 +46,9 @@ def test_table_leaves_sizes_past_budget_blank():
 def test_table_shows_each_strategys_growth():
     """The growth estimate is the headline of a sweep, so it sits under
     each strategy's column."""
-    basic = StrategyResult("basic", (), Growth(Model.EXPONENTIAL, 1.618, 0.9999))
-    memoized = StrategyResult("memoized", (), Growth(Model.POLYNOMIAL, 1.01, 0.998))
+    linear = Fit(Candidate("n", (Term.N,)), (1e-7, 1e-9), None, -90.0)
+    basic = StrategyResult("basic", (), _exponential_growth())
+    memoized = StrategyResult("memoized", (), Growth((linear,)))
 
     table = render_table([basic, memoized])
 
@@ -81,7 +87,7 @@ def test_json_report_keeps_samples_and_metadata(tmp_path):
     result = StrategyResult(
         strategy="basic",
         measurements=(Measurement("basic", 5, (1e-3, 2e-3)),),
-        growth=Growth(Model.EXPONENTIAL, 1.618, 0.9999),
+        growth=_exponential_growth(),
     )
     report = Report(
         problem="fibonacci",
@@ -100,4 +106,30 @@ def test_json_report_keeps_samples_and_metadata(tmp_path):
     assert saved["problem"] == "fibonacci"
     assert saved["metadata"]["python"] == sys.version
     assert saved["results"][0]["measurements"][0]["samples"] == [1e-3, 2e-3]
-    assert saved["results"][0]["growth"]["model"] == "exponential"
+    best = saved["results"][0]["growth"]["fits"][0]
+    assert best["candidate"] == {"name": "b^n", "terms": ["b^n"]}
+    assert best["base"] == 1.618
+
+
+def test_strategy_result_ranks_the_problems_extra_candidates():
+    """A problem's own candidates only matter if they reach the fit that
+    fills the table."""
+    # Setup: memoized-Fibonacci-like timings, linear plus a growing n² part,
+    # with ±1% noise since real timings never fit a curve exactly
+    sizes = [40, 100, 200, 400, 800, 1600]
+    measurements = tuple(
+        Measurement(
+            "memoized",
+            n,
+            ((2e-7 + 1.3e-7 * n + 3e-11 * n**2) * (1.01 if i % 2 else 0.99),),
+        )
+        for i, n in enumerate(sizes)
+    )
+    mixed = Candidate("n + n²", (Term.N, Term.N_SQUARED))
+
+    # Act
+    result = StrategyResult.from_sweep("memoized", measurements, (mixed,))
+
+    # Assert
+    assert result.growth is not None
+    assert result.growth.fits[0].name == "n + n²"

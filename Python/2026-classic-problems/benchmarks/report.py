@@ -9,7 +9,7 @@ from dataclasses import asdict, dataclass
 from datetime import UTC, datetime
 from pathlib import Path
 
-from benchmarks.growth import Growth, fit_growth
+from benchmarks.growth import Candidate, Growth, fit_growth
 from benchmarks.harness import Measurement
 
 _UNITS = ((1e-6, 1e9, "ns"), (1e-3, 1e6, "µs"), (1.0, 1e3, "ms"))
@@ -23,10 +23,15 @@ class StrategyResult:
 
     @classmethod
     def from_sweep(
-        cls, strategy: str, measurements: tuple[Measurement, ...]
+        cls,
+        strategy: str,
+        measurements: tuple[Measurement, ...],
+        extra_candidates: tuple[Candidate, ...] = (),
     ) -> StrategyResult:
         growth = fit_growth(
-            [m.size for m in measurements], [m.median for m in measurements]
+            [m.size for m in measurements],
+            [m.median for m in measurements],
+            extra_candidates,
         )
         return cls(strategy, measurements, growth)
 
