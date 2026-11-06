@@ -1,7 +1,5 @@
-default_iterations := '40'
+bench PROBLEM *ARGS:
+    uv run python -m benchmarks {{ PROBLEM }} {{ ARGS }}
 
-bench-fibs:
-    sudo -E uv run python -m profiling.sampling run benchmarks/fibonacci.py
-
-bench-fib STRATEGY ITERATIONS=default_iterations:
-    sudo -E uv run python -m profiling.sampling run benchmarks/fibonacci.py --strategy {{ STRATEGY }} --iterations {{ ITERATIONS }}
+profile PROBLEM STRATEGY N:
+    sudo -E uv run python -m profiling.sampling run -m benchmarks {{ PROBLEM }} --strategy {{ STRATEGY }} --once {{ N }}
