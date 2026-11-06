@@ -58,16 +58,22 @@ def _add_strategy(figure: go.Figure, result: StrategyResult, color: str) -> None
         customdata=[format_seconds(t) for t in medians],
         hovertemplate=f"{result.strategy}<br>n = %{{x}}<br>%{{customdata}}<extra></extra>",
     )
-    # Log axes place annotations in log10 units
-    figure.add_annotation(
-        x=math.log10(sizes[-1]),
-        y=math.log10(medians[-1]),
-        text=_label(result),
-        showarrow=False,
-        xanchor="left",
-        xshift=10,
-        font={"color": INK_SECONDARY},
-    )
+
+
+def _add_labels(figure: go.Figure, results: Sequence[StrategyResult]) -> None:
+    """Label each strategy at the end of its line."""
+    for result in results:
+        end = result.measurements[-1]
+        # Log axes place annotations in log10 units
+        figure.add_annotation(
+            x=math.log10(end.size),
+            y=math.log10(end.median),
+            text=_label(result),
+            showarrow=False,
+            xanchor="left",
+            xshift=10,
+            font={"color": INK_SECONDARY},
+        )
 
 
 def build_figure(
@@ -81,6 +87,7 @@ def build_figure(
     figure = go.Figure()
     for result in results:
         _add_strategy(figure, result, SERIES[strategies.index(result.strategy)])
+    _add_labels(figure, results)
 
     axis = {"type": "log", "gridcolor": GRID, "linecolor": AXIS, "zeroline": False}
     figure.update_layout(
