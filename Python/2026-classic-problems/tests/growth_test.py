@@ -1,5 +1,8 @@
 import math
 
+import numpy as np
+import pytest
+
 from benchmarks.growth import Candidate, Fit, Growth, Term, fit_growth
 
 SIZES = [40, 100, 200, 400, 800, 1600]
@@ -86,3 +89,15 @@ def test_exponential_fit_is_named_by_its_fitted_base():
     exponential = Fit(Candidate("b^n", (Term.EXPONENTIAL,)), (0, 1e-7), 1.618, -50)
 
     assert exponential.name == "1.62^n"
+
+
+def test_best_fit_predicts_the_timings_it_was_fitted_to():
+    """The plot draws the winning fit as a curve through the measured
+    points, so its predictions must follow the timings."""
+    seconds = _noisy([2e-7 + 1.4e-7 * n for n in SIZES])
+    growth = fit_growth(SIZES, seconds)
+    assert growth is not None
+
+    predicted = growth.fits[0].predict(np.array(SIZES, dtype=np.float64))
+
+    assert predicted == pytest.approx(seconds, rel=0.02)

@@ -8,6 +8,7 @@ from pathlib import Path
 
 from benchmarks.fibonacci import FIBONACCI
 from benchmarks.harness import DEFAULT_REPEAT, measure, sweep
+from benchmarks.plot import write_plot
 from benchmarks.report import Metadata, Report, StrategyResult, render_table, write_json
 
 PROBLEMS = {problem.name: problem for problem in (FIBONACCI,)}
@@ -30,6 +31,7 @@ def main(argv: Sequence[str] | None = None) -> None:
     )
     parser.add_argument("--repeat", type=int, default=DEFAULT_REPEAT)
     parser.add_argument("--json", type=Path, help="also save the results here")
+    parser.add_argument("--plot", type=Path, help="also draw an HTML chart here")
     parser.add_argument(
         "--once",
         type=int,
@@ -81,6 +83,11 @@ def main(argv: Sequence[str] | None = None) -> None:
         )
         write_json(report, args.json)
         print(f"saved {args.json}", file=sys.stderr)
+
+    if args.plot:
+        names = [s.name for s in problem.strategies]
+        write_plot(problem.name, results, names, args.plot)
+        print(f"saved {args.plot}", file=sys.stderr)
 
 
 if __name__ == "__main__":
