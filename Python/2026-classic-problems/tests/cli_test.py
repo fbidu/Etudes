@@ -6,6 +6,7 @@ from pathlib import Path
 import pytest
 
 from benchmarks.__main__ import main
+from benchmarks.fibonacci import FIBONACCI
 
 PROJECT_ROOT = Path(__file__).parent.parent
 
@@ -16,6 +17,7 @@ def test_cli_compares_every_strategy_and_saves_json(tmp_path):
     test stays fast."""
     path = tmp_path / "fibonacci.json"
     plot = tmp_path / "fibonacci.html"
+    strategies = [s.name for s in FIBONACCI.strategies]
 
     completed = subprocess.run(
         [sys.executable, "-m", "benchmarks", "fibonacci"]
@@ -28,9 +30,9 @@ def test_cli_compares_every_strategy_and_saves_json(tmp_path):
     )
 
     header = completed.stdout.splitlines()[0]
-    assert header.split() == ["size", "BasicFib", "MemoizedFib"]
+    assert header.split() == ["size", *strategies]
     saved = json.loads(path.read_text())
-    assert [r["strategy"] for r in saved["results"]] == ["BasicFib", "MemoizedFib"]
+    assert [r["strategy"] for r in saved["results"]] == strategies
     assert all(len(r["measurements"]) == 1 for r in saved["results"])
     assert "plotly" in plot.read_text()
 
