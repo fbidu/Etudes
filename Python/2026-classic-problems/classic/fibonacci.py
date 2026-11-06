@@ -32,6 +32,3 @@ class MemoizedFib(Fibonacci):
 
 
 STRATEGIES: tuple[type[Fibonacci], ...] = (BasicFib, MemoizedFib)
-
-basic_fib = BasicFib()
-memoized_fib = MemoizedFib()
