@@ -109,3 +109,27 @@ def test_json_report_keeps_samples_and_metadata(tmp_path):
     best = saved["results"][0]["growth"]["fits"][0]
     assert best["candidate"] == {"name": "b^n", "terms": ["b^n"]}
     assert best["base"] == 1.618
+
+
+def test_strategy_result_ranks_the_problems_extra_candidates():
+    """A problem's own candidates only matter if they reach the fit that
+    fills the table."""
+    # Setup: memoized-Fibonacci-like timings, linear plus a growing n² part,
+    # with ±1% noise since real timings never fit a curve exactly
+    sizes = [40, 100, 200, 400, 800, 1600]
+    measurements = tuple(
+        Measurement(
+            "memoized",
+            n,
+            ((2e-7 + 1.3e-7 * n + 3e-11 * n**2) * (1.01 if i % 2 else 0.99),),
+        )
+        for i, n in enumerate(sizes)
+    )
+    mixed = Candidate("n + n²", (Term.N, Term.N_SQUARED))
+
+    # Act
+    result = StrategyResult.from_sweep("memoized", measurements, (mixed,))
+
+    # Assert
+    assert result.growth is not None
+    assert result.growth.fits[0].name == "n + n²"
