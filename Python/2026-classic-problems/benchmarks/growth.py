@@ -68,6 +68,11 @@ class Fit:
             return self.candidate.name
         return self.candidate.name.replace("b^n", f"{self.base:.2f}^n")
 
+    def predict(self, n: Floats) -> Floats:
+        """Seconds per call that this fit expects at each size in `n`."""
+        design = _design(self.candidate, n, self.base or 0.0)
+        return design @ np.array(self.coefficients)
+
 
 @dataclass(frozen=True)
 class Growth:
