@@ -26,6 +26,9 @@ INK_SECONDARY = "#52514e"
 GRID = "#e1e0d9"
 AXIS = "#c3c2b7"
 FONT = 'system-ui, -apple-system, "Segoe UI", sans-serif'
+# Least distance between end labels, as a share of the y range: about a
+# line of text at common chart heights
+LABEL_GAP = 0.05
 
 
 def _label(result: StrategyResult) -> str:
@@ -58,16 +61,56 @@ def _add_strategy(figure: go.Figure, result: StrategyResult, color: str) -> None
         customdata=[format_seconds(t) for t in medians],
         hovertemplate=f"{result.strategy}<br>n = %{{x}}<br>%{{customdata}}<extra></extra>",
     )
+
+
+def spread(heights: Sequence[float], gap: float) -> list[float]:
+    """Move label heights apart until neighbours are at least `gap` apart.
+
+    Labels that would overlap form a group, stacked evenly around the
+    group's mean height, so a lone label stays where it is and a crowd
+    moves as little as it can. The result keeps the order of `heights`.
+    """
+
+    def bottom(group: list[int]) -> float:
+        mean = sum(heights[i] for i in group) / len(group)
+        return mean - (len(group) - 1) * gap / 2
+
+    groups: list[list[int]] = []  # indices into heights, lowest first
+    for i in sorted(range(len(heights)), key=lambda i: heights[i]):
+        groups.append([i])
+        # Merging moves a group down, which can reach the group below it
+        while (
+            len(groups) > 1
+            and bottom(groups[-1]) < bottom(groups[-2]) + len(groups[-2]) * gap
+        ):
+            merged = groups.pop()
+            groups[-1].extend(merged)
+
+    placed = [0.0] * len(heights)
+    for group in groups:
+        for rank, i in enumerate(group):
+            placed[i] = bottom(group) + rank * gap
+    return placed
+
+
+def _add_labels(figure: go.Figure, results: Sequence[StrategyResult]) -> None:
+    """Label each strategy at the end of its line, spread apart so that
+    strategies ending close together keep readable labels."""
+    ends = [result.measurements[-1] for result in results]
     # Log axes place annotations in log10 units
-    figure.add_annotation(
-        x=math.log10(sizes[-1]),
-        y=math.log10(medians[-1]),
-        text=_label(result),
-        showarrow=False,
-        xanchor="left",
-        xshift=10,
-        font={"color": INK_SECONDARY},
-    )
+    every = [math.log10(m.median) for r in results for m in r.measurements]
+    gap = LABEL_GAP * (max(every) - min(every))
+    heights = spread([math.log10(end.median) for end in ends], gap)
+    for result, end, height in zip(results, ends, heights, strict=True):
+        figure.add_annotation(
+            x=math.log10(end.size),
+            y=height,
+            text=_label(result),
+            showarrow=False,
+            xanchor="left",
+            xshift=10,
+            font={"color": INK_SECONDARY},
+        )
 
 
 def build_figure(
@@ -81,6 +124,7 @@ def build_figure(
     figure = go.Figure()
     for result in results:
         _add_strategy(figure, result, SERIES[strategies.index(result.strategy)])
+    _add_labels(figure, results)
 
     axis = {"type": "log", "gridcolor": GRID, "linecolor": AXIS, "zeroline": False}
     figure.update_layout(

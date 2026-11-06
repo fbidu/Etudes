@@ -31,4 +31,17 @@ class MemoizedFib(Fibonacci):
         return fib
 
 
-STRATEGIES: tuple[type[Fibonacci], ...] = (BasicFib, MemoizedFib)
+class TabulatedFib(Fibonacci):
+    """MemoizedFib's table built bottom-up: a loop fills it from 0 to n
+    instead of recursion filling it on the way back from n."""
+
+    def __call__(self, n: int) -> int:
+        table = []
+        a, b = 0, 1
+        for _ in range(n + 1):
+            table.append(a)
+            a, b = b, a + b
+        return table[n]
+
+
+STRATEGIES: tuple[type[Fibonacci], ...] = (BasicFib, MemoizedFib, TabulatedFib)
