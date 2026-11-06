@@ -1,4 +1,14 @@
-from benchmarks.harness import Measurement, Problem, Strategy, measure, sweep
+import pytest
+
+from benchmarks.harness import (
+    Measurement,
+    Problem,
+    StrategiesDisagree,
+    Strategy,
+    check_agreement,
+    measure,
+    sweep,
+)
 
 
 def _identity_problem(sizes: tuple[int, ...]) -> Problem[int, int]:
@@ -75,3 +85,39 @@ def test_sweep_builds_each_input_from_its_size():
     sweep(problem, problem.strategies[0], budget=1.0, measure=fake_measure)
 
     assert seen == [[0, 1], [0, 1, 2]]
+
+
+def _doubling_problem(*strategies: Strategy[int, int]) -> Problem[int, int]:
+    return Problem(
+        name="double",
+        strategies=strategies,
+        make_input=lambda n: n,
+        sizes=(),
+        check_sizes=tuple(range(6)),
+    )
+
+
+def test_agreeing_strategies_pass_the_check():
+    """Two different ways to the same answer must not be flagged, or the
+    check would block every comparison."""
+    problem = _doubling_problem(
+        Strategy("multiply", lambda: lambda n: n * 2),
+        Strategy("add", lambda: lambda n: n + n),
+    )
+
+    check_agreement(problem)
+
+
+def test_a_wrong_strategy_is_caught_before_timing():
+    """A fast but wrong strategy would top the table. The check names the
+    first size where outputs differ and what each strategy returned."""
+    problem = _doubling_problem(
+        Strategy("right", lambda: lambda n: n * 2),
+        Strategy("wrong", lambda: lambda n: n * 2 if n < 3 else n * 2 + 1),
+    )
+
+    with pytest.raises(StrategiesDisagree) as caught:
+        check_agreement(problem)
+
+    assert caught.value.size == 3
+    assert caught.value.outputs == {"right": 6, "wrong": 7}
