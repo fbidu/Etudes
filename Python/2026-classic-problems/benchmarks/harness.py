@@ -2,7 +2,7 @@
 
 import statistics
 import timeit
-from collections.abc import Callable
+from collections.abc import Callable, Mapping
 from dataclasses import dataclass
 
 DEFAULT_REPEAT = 5
@@ -36,6 +36,25 @@ class Measurement:
     @property
     def best(self) -> float:
         return min(self.samples)
+
+
+class StrategiesDisagree(Exception):
+    def __init__(self, size: int, outputs: Mapping[str, object]) -> None:
+        self.size = size
+        self.outputs = outputs
+        answers = ", ".join(f"{name}={output!r}" for name, output in outputs.items())
+        super().__init__(f"strategies disagree at size {size}: {answers}")
+
+
+def check_agreement[I, O](problem: Problem[I, O]) -> None:
+    """Raise StrategiesDisagree unless every strategy gives the same output
+    at every check size, so a fast but wrong strategy is never timed."""
+    for size in problem.check_sizes:
+        data = problem.make_input(size)
+        outputs = {s.name: s.factory()(data) for s in problem.strategies}
+        first, *rest = outputs.values()
+        if any(output != first for output in rest):
+            raise StrategiesDisagree(size, outputs)
 
 
 type Measure[I, O] = Callable[[Strategy[I, O], int, I], Measurement]
