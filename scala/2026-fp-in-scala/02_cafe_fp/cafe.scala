@@ -26,12 +26,12 @@ case class Charge(cc: CreditCard, amount: Double):
 object Charge:
   def coalesce(charges: List[Charge]): List[Charge] =
     /* Combine charges made to the same credit cards */
-    var ccs = collection.mutable.Map[CreditCard, Charge]()
-    for (charge <- charges) do
-      var cc_charges = ccs.getOrElse(charge.cc, Charge(charge.cc, 0))
-      cc_charges = cc_charges.combine(charge)
-      ccs(charge.cc) = cc_charges
-    ccs.values.toList
+    var ccs = charges.groupBy(_.cc)
+    var final_charges = collection.mutable.Map[CreditCard, Charge]()
+    for ((cc, cc_charges) <- ccs) do
+      val cc_charges_ = cc_charges.reduce(_.combine(_))
+      final_charges(cc) = cc_charges_
+    final_charges.values.toList
 
 @main def run(): Unit =
   val cc = CreditCard()
