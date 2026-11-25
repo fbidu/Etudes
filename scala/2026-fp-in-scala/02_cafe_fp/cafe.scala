@@ -7,9 +7,9 @@ class Cafe:
     var coffees = List[Coffee]()
     var charge = Charge(cc, 0)
     for (i <- 1 to n) do
-      val cup = buyCoffee(cc)
-      charge = charge.combine(cup._2)
-      coffees = coffees.appended(cup._1)
+      val (cup, charge_cup) = buyCoffee(cc)
+      charge = charge.combine(charge_cup)
+      coffees = coffees.appended(cup)
     (coffees, charge)
 
 class CreditCard:
