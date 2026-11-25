@@ -26,8 +26,7 @@ case class Charge(cc: CreditCard, amount: Double):
 object Charge:
   def coalesce(charges: List[Charge]): List[Charge] =
     /* Combine charges made to the same credit cards */
-    var ccs = charges.groupBy(_.cc)
-    var final_charges = ccs.values.map(_.reduce(_.combine(_)))
+    val final_charges = charges.groupBy(_.cc).values.map(_.reduce(_.combine(_)))
     final_charges.toList
 
 @main def run(): Unit =
