@@ -5,9 +5,10 @@ class Cafe:
 
   def buyCoffees(cc: CreditCard, n: Int): (List[Coffee], Charge) =
     var coffees = List[Coffee]()
+    val purchases: List[(Coffee, Charge)] = List.fill(n)(buyCoffee(cc))
     var charge = Charge(cc, 0)
-    for (i <- 1 to n) do
-      val (cup, charge_cup) = buyCoffee(cc)
+    for (purchase <- purchases) do
+      val (cup, charge_cup) = purchase
       charge = charge.combine(charge_cup)
       coffees = coffees.appended(cup)
     (coffees, charge)
