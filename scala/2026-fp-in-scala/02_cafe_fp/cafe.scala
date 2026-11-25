@@ -27,11 +27,8 @@ object Charge:
   def coalesce(charges: List[Charge]): List[Charge] =
     /* Combine charges made to the same credit cards */
     var ccs = charges.groupBy(_.cc)
-    var final_charges = collection.mutable.Map[CreditCard, Charge]()
-    for ((cc, cc_charges) <- ccs) do
-      val cc_charges_ = cc_charges.reduce(_.combine(_))
-      final_charges(cc) = cc_charges_
-    final_charges.values.toList
+    var final_charges = ccs.values.map(_.reduce(_.combine(_)))
+    final_charges.toList
 
 @main def run(): Unit =
   val cc = CreditCard()
