@@ -1,3 +1,6 @@
+from __future__ import annotations
+
+from collections import defaultdict
 from dataclasses import dataclass
 from functools import reduce
 from itertools import groupby
@@ -27,10 +30,14 @@ class Charge:
         Takes a list of charges, groups them by credit card
         and returns a list of the final charges to each card.
         """
-        result: list[Charge] = []
-        for _, cc_charges in groupby(charges, key=lambda x: x.credit_card):
-            credit_card_charges = reduce(operator.add, cc_charges)
-            result.append(credit_card_charges)
+        charges_per_cc: dict[CreditCard, list[Charge]] = defaultdict(list)
+        for charge in charges:
+            charges_per_cc[charge.credit_card].append(charge)
+
+        result = [
+            reduce(operator.add, cc_charges)
+            for cc_charges in charges_per_cc.values()
+        ]
         return result
 
 class Cafe:
