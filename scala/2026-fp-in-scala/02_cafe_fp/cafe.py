@@ -1,6 +1,7 @@
 from dataclasses import dataclass
 from functools import reduce
 from itertools import groupby
+import operator
 class CreditCard:
     def charge(self, price: float) -> None:
         print(f"Charging {price}")
@@ -28,7 +29,7 @@ class Charge:
         """
         result: list[Charge] = []
         for _, cc_charges in groupby(charges, key=lambda x: x.credit_card):
-            credit_card_charges = reduce(lambda x, y: x+y, cc_charges)
+            credit_card_charges = reduce(operator.add, cc_charges)
             result.append(credit_card_charges)
         return result
 
@@ -43,7 +44,7 @@ class Cafe:
         purchases = [Cafe.buy_coffee(cc) for _ in range(n)]
         coffees: list[Coffee] = [p[0] for p in purchases]
         charges: list[Charge] = [p[1] for p in purchases]
-        charge = reduce(lambda a, b: a + b, charges)
+        charge = reduce(operator.add, charges)
         return (coffees, charge)
 
 if __name__ == "__main__":
