@@ -1,17 +1,20 @@
 from __future__ import annotations
 
+import operator
 from collections import defaultdict
 from dataclasses import dataclass
 from functools import reduce
-from itertools import groupby
-import operator
+
+
 class CreditCard:
     def charge(self, price: float) -> None:
         print(f"Charging {price}")
 
+
 @dataclass(frozen=True)
 class Coffee:
-    price: float = 2
+    price: float = 2.0
+
 
 @dataclass(frozen=True)
 class Charge:
@@ -34,11 +37,10 @@ class Charge:
         for charge in charges:
             charges_per_cc[charge.credit_card].append(charge)
 
-        result = [
-            reduce(operator.add, cc_charges)
-            for cc_charges in charges_per_cc.values()
+        return [
+            reduce(operator.add, cc_charges) for cc_charges in charges_per_cc.values()
         ]
-        return result
+
 
 class Cafe:
     @staticmethod
@@ -49,10 +51,11 @@ class Cafe:
     @staticmethod
     def buy_coffees(cc: CreditCard, n: int) -> tuple[list[Coffee], Charge]:
         purchases = [Cafe.buy_coffee(cc) for _ in range(n)]
-        coffees: list[Coffee] = [p[0] for p in purchases]
-        charges: list[Charge] = [p[1] for p in purchases]
+        coffees = [p[0] for p in purchases]
+        charges = [p[1] for p in purchases]
         charge = reduce(operator.add, charges)
         return (coffees, charge)
+
 
 if __name__ == "__main__":
     card = CreditCard()
