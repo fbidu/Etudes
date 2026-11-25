@@ -16,10 +16,10 @@ class Charge:
     amount: float
 
     def __add__(self, other: Charge) -> Charge:
-        if (self.credit_card == other.credit_card):
+        if self.credit_card == other.credit_card:
             return Charge(self.credit_card, self.amount + other.amount)
-        else:
-            raise ValueError("Can't combine charges of different credit cards")
+
+        raise ValueError("Can't combine charges of different credit cards")
 
     @staticmethod
     def coalesce(charges: list[Charge]) -> list[Charge]:
