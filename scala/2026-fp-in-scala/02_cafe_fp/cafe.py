@@ -13,7 +13,7 @@ class Charge:
     credit_card: CreditCard
     amount: float
 
-    def combine(self, other: Charge) -> Charge:
+    def __add__(self, other: Charge) -> Charge:
         if (self.credit_card == other.credit_card):
             return Charge(self.credit_card, self.amount + other.amount)
         else:
@@ -30,7 +30,7 @@ class Cafe:
         purchases = [Cafe.buy_coffee(cc) for _ in range(n)]
         coffees: list[Coffee] = [p[0] for p in purchases]
         charges: list[Charge] = [p[1] for p in purchases]
-        charge = reduce(lambda a, b: a.combine(b), charges)
+        charge = reduce(lambda a, b: a + b, charges)
         return (coffees, charge)
 
 if __name__ == "__main__":
