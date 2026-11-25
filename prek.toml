@@ -1,0 +1,60 @@
+# Configuration file for `prek`, a git hook framework written in Rust.
+# See https://prek.j178.dev for more information.
+#:schema https://www.schemastore.org/prek.json
+
+default_install_hook_types = ["pre-commit", "pre-push"]
+
+[[repos]]
+repo = "https://github.com/pre-commit/pre-commit-hooks"
+rev = "v6.0.0"
+hooks = [
+  { id = "trailing-whitespace", stages = ["pre-commit"] },
+  { id = "end-of-file-fixer", stages = ["pre-commit"] },
+  { id = "check-yaml", stages = ["pre-commit"] },
+  { id = "check-added-large-files", stages = ["pre-commit"] },
+  { id = "check-toml", stages = ["pre-commit"] },
+  { id = "check-json", stages = ["pre-commit"] },
+]
+
+[[repos]]
+repo = "local"
+
+[[repos.hooks]]
+id = "ruff"
+name = "ruff"
+entry = "ruff check --fix --force-exclude"
+language = "system"
+types_or = ["python", "pyi"]
+require_serial = true
+stages = ["pre-commit"]
+
+[[repos.hooks]]
+id = "ruff-format"
+name = "ruff format"
+entry = "ruff format --force-exclude"
+language = "system"
+types_or = ["python", "pyi"]
+require_serial = true
+stages = ["pre-commit"]
+
+# pyright and pytest need the project's uv environment, so they run
+# inside the project and only when its files change.
+[[repos.hooks]]
+id = "pyright"
+name = "pyright"
+entry = "uv run --directory Python/2026-classic-problems pyright"
+language = "system"
+types = ["python"]
+files = "^Python/2026-classic-problems/"
+stages = ["pre-commit"]
+pass_filenames = false
+
+[[repos.hooks]]
+id = "pytest"
+name = "pytest"
+entry = "uv run --directory Python/2026-classic-problems pytest"
+language = "system"
+files = "^Python/2026-classic-problems/"
+stages = ["pre-push"]
+pass_filenames = false
+verbose = true
