@@ -21,6 +21,18 @@ case class Charge(cc: CreditCard, amount: Double):
     if (cc == other.cc) then Charge(cc, amount + other.amount)
     else throw Exception("Can't combine charges of different CCs")
 
+// "Companion Object" to Charge to expose `Charge.coalesce`
+// ref:https://docs.scala-lang.org/scala3/book/domain-modeling-tools.html#companion-objects
+object Charge:
+  def coalesce(charges: List[Charge]): List[Charge] =
+    /* Combine charges made to the same credit cards */
+    var ccs = collection.mutable.Map[CreditCard, Charge]()
+    for (charge <- charges) do
+      var cc_charges = ccs.getOrElse(charge.cc, Charge(charge.cc, 0))
+      cc_charges = cc_charges.combine(charge)
+      ccs(charge.cc) = cc_charges
+    ccs.values.toList
+
 @main def run(): Unit =
   val cc = CreditCard()
   val cafe = Cafe()
@@ -31,3 +43,14 @@ case class Charge(cc: CreditCard, amount: Double):
   val result = cafe.buyCoffees(cc, 10)
   println(result)
   println(result._1.length)
+
+  println("Testing charge coalescing")
+  val cc1 = CreditCard()
+  val cc2 = CreditCard()
+  val (_, c1) = cafe.buyCoffee(cc1)
+  val (_, c2) = cafe.buyCoffee(cc1)
+  val (_, c3) = cafe.buyCoffee(cc1)
+  val (_, c4) = cafe.buyCoffee(cc2)
+  val (_, c5) = cafe.buyCoffee(cc2)
+  val charges = Charge.coalesce(List(c1, c2, c3, c4, c5))
+  println(charges)
