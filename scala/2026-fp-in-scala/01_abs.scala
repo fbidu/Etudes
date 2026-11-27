@@ -8,9 +8,9 @@ object MyProgram:
     else n
   }
 
-  private def formatAbs(n: Double) =
+  private def formatAbs(n: Double): String =
     val msg = "The absolute value of %f is %f"
-    msg.format(n, abs(n))
+    return msg.format(n, abs(n))
 
   @main def printAbs() =
     println(abs(42))
